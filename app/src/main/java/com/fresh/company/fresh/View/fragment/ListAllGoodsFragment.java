@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.support.design.widget.FloatingActionButton;
 
+import com.dtr.zxing.activity.CaptureActivity;
 import com.fresh.company.fresh.CommonUtil.RecyclerViewAdapter;
 import com.fresh.company.fresh.CommonUtil.SimpleItemTouchHelperCallback;
 import com.fresh.company.fresh.CommonUtil.onStartDragListener;
@@ -93,9 +94,9 @@ public class ListAllGoodsFragment extends Fragment implements onStartDragListene
             @Override
             public void onClick(View view) {
                 //扫描操作
-                Intent intent= new Intent(getActivity(),ScanActivity.class);
-                //startActivityForResult(intent, SCAN_CODE);
-                startActivity(intent);
+                Intent intent= new Intent(getActivity(),CaptureActivity.class);
+                startActivityForResult(intent, SCAN_CODE);
+                //startActivity(intent);
             }
         });
         //list
@@ -121,12 +122,13 @@ public class ListAllGoodsFragment extends Fragment implements onStartDragListene
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case SCAN_CODE:
-//                if (resultCode == 0) {
-//                    String result = data.getStringExtra("scan_result");
-//                    mTextView.setText(result);
-//                } else if (resultCode == RESULT_CANCELED) {
-//                    mTextView.setText("没有扫描出结果");
-//                }
+                if (resultCode == CaptureActivity.RESULT_OK) {
+                    Bundle b=data.getExtras(); //data为B中回传的Intent
+                    String str=b.getString(CaptureActivity.RESULT);//str即为回传的值
+                    mTextView.setText(str);
+                } else if (resultCode == RESULT_CANCELED) {
+                    mTextView.setText("没有扫描出结果");
+                }
                 break;
             default:
                 break;
