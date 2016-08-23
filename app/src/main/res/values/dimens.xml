@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_size">35dp</dimen>
+    <dimen name="content_size">20dp</dimen>
     <dimen name="linearLayout_margin_left">15dp</dimen>
     <dimen name="linearLayout_margin_right">15dp</dimen>
     <dimen name="linearLayout_margin_top">15dp</dimen>
@@ -11,7 +12,5 @@
     <dimen name="navigateBarMargin">30dp</dimen>
     <dimen name="actionBarMargin">57dp</dimen>
     <dimen name="item_padding">30dp</dimen>
-
-    <dimen name="standard_padding">8dip</dimen>
-    <dimen name="half_padding">4dip</dimen>
+    <dimen name="pic_height">300dp</dimen>
 </resources>

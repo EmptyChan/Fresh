@@ -26,5 +26,11 @@
         <item>Microsoft Corp</item>
         <item>Apple Corp</item>
     </array>
-
+    <string name="goods_name">商品名称</string>
+    <string name="goods_type">商品类型</string>
+    <string name="goods_manufacturer">生产厂商</string>
+    <string name="goods_production_date">生产日期</string>
+    <string name="goods_price">商品价格</string>
+    <string name="goods_durability_period">保质时限</string>
+    <string name="goods_manual_period">拆封时限</string>
 </resources>

@@ -95,8 +95,8 @@ public class ListAllGoodsFragment extends Fragment implements onStartDragListene
             public void onClick(View view) {
                 //扫描操作
                 Intent intent= new Intent(getActivity(),CaptureActivity.class);
-                startActivityForResult(intent, SCAN_CODE);
-                //startActivity(intent);
+                //startActivityForResult(intent, SCAN_CODE);
+                startActivity(intent);
             }
         });
         //list
@@ -122,13 +122,13 @@ public class ListAllGoodsFragment extends Fragment implements onStartDragListene
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case SCAN_CODE:
-                if (resultCode == CaptureActivity.RESULT_OK) {
-                    Bundle b=data.getExtras(); //data为B中回传的Intent
-                    String str=b.getString(CaptureActivity.RESULT);//str即为回传的值
-                    mTextView.setText(str);
-                } else if (resultCode == RESULT_CANCELED) {
-                    mTextView.setText("没有扫描出结果");
-                }
+//                if (resultCode == CaptureActivity.RESULT_OK) {
+//                    Bundle b=data.getExtras(); //data为B中回传的Intent
+//                    String str=b.getString(CaptureActivity.RESULT);//str即为回传的值
+//                    mTextView.setText(str);
+//                } else if (resultCode == RESULT_CANCELED) {
+//                    mTextView.setText("没有扫描出结果");
+//                }
                 break;
             default:
                 break;

@@ -41,6 +41,7 @@ import com.dtr.zxing.utils.BeepManager;
 import com.dtr.zxing.utils.CaptureActivityHandler;
 import com.dtr.zxing.utils.InactivityTimer;
 import com.fresh.company.fresh.R;
+import com.fresh.company.fresh.View.activity.GoodsActivity;
 import com.google.zxing.Result;
 
 /**
@@ -189,14 +190,15 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 	public void handleDecode(Result rawResult, Bundle bundle) {
 		inactivityTimer.onActivity();
 		beepManager.playBeepSoundAndVibrate();
-		Intent intent=new Intent();
+		Intent intent=new Intent(CaptureActivity.this, GoodsActivity.class);
 		bundle.putInt(WIDTH, mCropRect.width());
 		bundle.putInt(HEIGHT, mCropRect.height());
 		bundle.putString(RESULT, rawResult.getText());
 		intent.putExtras(bundle);
-		setResult(RESULT_OK, intent); //intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
+		//setResult(RESULT_OK, intent); //intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
+
+		startActivity(intent);//to goods activity
 		finish();//此处一定要调用finish()方法
-		//startActivity(new Intent(CaptureActivity.this, ResultActivity.class).putExtras(bundle));
 	}
 
 	private void initCamera(SurfaceHolder surfaceHolder) {
