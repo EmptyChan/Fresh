@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-//import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -13,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.support.design.widget.FloatingActionButton;
 
 import com.dtr.zxing.activity.CaptureActivity;
 import com.fresh.company.fresh.CommonUtil.RecyclerViewAdapter;
@@ -21,6 +19,7 @@ import com.fresh.company.fresh.CommonUtil.SimpleItemTouchHelperCallback;
 import com.fresh.company.fresh.CommonUtil.onStartDragListener;
 import com.fresh.company.fresh.R;
 import com.fresh.company.fresh.View.activity.ScanActivity;
+import com.melnykov.fab.FloatingActionButton;
 
 import static android.app.Activity.RESULT_CANCELED;
 
@@ -88,17 +87,7 @@ public class ListAllGoodsFragment extends Fragment implements onStartDragListene
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_list_all_goods, container, false);
         mTextView=(TextView)v.findViewById(R.id.tv);
-        //fab
-        mFloatingActionButton=(FloatingActionButton)v.findViewById(R.id.fab);
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //扫描操作
-                Intent intent= new Intent(getActivity(),CaptureActivity.class);
-                //startActivityForResult(intent, SCAN_CODE);
-                startActivity(intent);
-            }
-        });
+        mTextView.setText(mName);
         //list
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity(),this);
         //参数view即为我们在onCreateView中return的view
@@ -113,7 +102,18 @@ public class ListAllGoodsFragment extends Fragment implements onStartDragListene
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
-        mTextView.setText(mName);
+        //fab
+        mFloatingActionButton=(FloatingActionButton)v.findViewById(R.id.fab);
+        mFloatingActionButton.attachToRecyclerView(mRecyclerView);
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //扫描操作
+                Intent intent= new Intent(getActivity(),CaptureActivity.class);
+                //startActivityForResult(intent, SCAN_CODE);
+                startActivity(intent);
+            }
+        });
         return v;
     }
 

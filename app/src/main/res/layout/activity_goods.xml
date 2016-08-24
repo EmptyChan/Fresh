@@ -1,24 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".View.activity.GoodsActivity"
     android:background="@color/colorAccent"
     android:orientation="vertical">
-
-    <ScrollView
+    <com.github.ksoichiro.android.observablescrollview.ObservableListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent">
+    </com.github.ksoichiro.android.observablescrollview.ObservableListView>
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:elevation="1dp"
+            />
+        <View
+            android:id="@+id/toolbar_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/toolbar_dropshadow" />
+    </android.support.design.widget.AppBarLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pic_height"
@@ -38,12 +61,21 @@
                     android:layout_height="wrap_content"
                     android:text="@string/goods_name"
                     style="@style/title_style"/>
-                <TextView
+                <!--<TextView-->
+                    <!--android:id="@+id/goodsName"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="冰菓"-->
+                    <!--style="@style/content_style"/>-->
+                <EditText
                     android:id="@+id/goodsName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="冰菓"
-                    style="@style/content_style"/>
+                     android:text="冰菓"
+                    style="@style/content_style"
+                    android:textColor="@color/colorLaucher"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:background="@drawable/edit_shape"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -54,13 +86,22 @@
                     android:layout_height="wrap_content"
                     android:text="@string/goods_type"
                     style="@style/title_style"/>
-                <TextView
+                <EditText
                     android:id="@+id/goodsType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="图书图像类"
-                    android:textSize="@dimen/content_size"
-                    style="@style/content_style"/>
+                    style="@style/content_style"
+                    android:textColor="@color/colorLaucher"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:background="@drawable/edit_shape"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/goodsType"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="图书图像类"-->
+                    <!--android:textSize="@dimen/content_size"-->
+                    <!--style="@style/content_style"/>-->
                 </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,13 +112,22 @@
                     android:layout_height="wrap_content"
                     android:text="@string/goods_manufacturer"
                     style="@style/title_style"/>
-                <TextView
+                <EditText
                     android:id="@+id/goodsManufacturer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="角川书店"
-                    android:textSize="@dimen/content_size"
-                    style="@style/content_style"/>
+                    style="@style/content_style"
+                    android:textColor="@color/colorLaucher"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:background="@drawable/edit_shape"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/goodsManufacturer"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="角川书店"-->
+                    <!--android:textSize="@dimen/content_size"-->
+                    <!--style="@style/content_style"/>-->
                 </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,13 +138,22 @@
                     android:layout_height="wrap_content"
                     android:text="@string/goods_price"
                     style="@style/title_style"/>
-                <TextView
+                <EditText
                     android:id="@+id/goodsPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="¥100.0"
-                    android:textSize="@dimen/content_size"
-                    style="@style/content_style"/>
+                    style="@style/content_style"
+                    android:textColor="@color/colorLaucher"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:background="@drawable/edit_shape"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/goodsPrice"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="¥100.0"-->
+                    <!--android:textSize="@dimen/content_size"-->
+                    <!--style="@style/content_style"/>-->
                 </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -105,13 +164,22 @@
                     android:layout_height="wrap_content"
                     android:text="@string/goods_production_date"
                     style="@style/title_style"/>
-                <TextView
+                <EditText
                     android:id="@+id/goodsProductionDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="2015-06-09"
                     style="@style/content_style"
-                    android:textSize="@dimen/content_size"/>
+                    android:textColor="@color/colorLaucher"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:background="@drawable/edit_shape"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/goodsProductionDate"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="2015-06-09"-->
+                    <!--style="@style/content_style"-->
+                    <!--android:textSize="@dimen/content_size"/>-->
                 </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -122,13 +190,22 @@
                     android:layout_height="wrap_content"
                     android:text="@string/goods_durability_period"
                     style="@style/title_style"/>
-                <TextView
+                <EditText
                     android:id="@+id/goodsDurabilityPeriod"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="十年"
                     style="@style/content_style"
-                    android:textSize="@dimen/content_size"/>
+                    android:textColor="@color/colorLaucher"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:background="@drawable/edit_shape"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/goodsDurabilityPeriod"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="十年"-->
+                    <!--style="@style/content_style"-->
+                    <!--android:textSize="@dimen/content_size"/>-->
                 </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -139,14 +216,22 @@
                     android:layout_height="wrap_content"
                     android:text="@string/goods_manual_period"
                     style="@style/title_style"/>
-                <TextView
+                <EditText
                     android:id="@+id/goodsManualPeriod"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="两年"
                     style="@style/content_style"
-                    android:textSize="@dimen/content_size"/>
+                    android:textColor="@color/colorLaucher"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:background="@drawable/edit_shape"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/goodsManualPeriod"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="两年"-->
+                    <!--style="@style/content_style"-->
+                    <!--android:textSize="@dimen/content_size"/>-->
                 </LinearLayout>
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+</FrameLayout>
