@@ -1,8 +1,12 @@
 package com.fresh.company.fresh.CommonUtil;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fresh.company.fresh.R;
+import com.rey.material.app.Dialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,8 +34,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         implements onMoveAndSwipedListener
 {
     private final onStartDragListener mStartDragListener;
+    private Context context;
+    public static boolean flag=false;
     private ArrayList<String> mItems=new ArrayList<>();
     public RecyclerViewAdapter(Context context , onStartDragListener startDragListener){
+        this.context=context;
         //初始化数据
         mItems.addAll(Arrays.asList(context.getResources().getStringArray(R.array.dummy_items)));
         mStartDragListener = startDragListener;
@@ -79,10 +87,34 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onItemDismiss(int position) {
-        //删除mItems数据
-        mItems.remove(position);
-        //删除RecyclerView列表对应item
-        notifyItemRemoved(position);
+        String t=mItems.get(position);
+        final int index=position;
+        TextView text = new TextView(context);
+        text.setText("Do you wan to delete :"+t+"?");
+        final Dialog dialog=new Dialog(context);
+        dialog.title("Delete").contentView(text).positiveAction("OK")
+                .negativeAction("CANCEL").positiveActionClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //dialog.show();
+                        //删除mItems数据
+                        mItems.remove(index);
+                        //删除RecyclerView列表对应item
+                        notifyItemRemoved(index);
+                        dialog.hide();
+                    }
+                }
+        ).negativeActionClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        notifyItemChanged(index);
+                        dialog.hide();
+                        flag=true;
+                    }
+                }
+        ).show();
     }
 
     /**相当于ListView中的ViewHolder，即每一条的Item*/
@@ -91,6 +123,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     {
         private TextView text;
         private ImageView handle;
+        private Drawable drawable;
         public ItemViewHolder(View itemView) {
             super(itemView);
             text = (TextView) itemView.findViewById(R.id.text);
@@ -99,13 +132,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onItemSelected() {
+            drawable=itemView.getBackground();
             //设置item的背景颜色为浅灰色
             itemView.setBackgroundColor(Color.LTGRAY);
         }
 
         @Override
         public void onItemClear() {
-            //恢复item的背景颜色
+            if (RecyclerViewAdapter.flag)
+                itemView.setBackground(drawable);
+             //恢复item的背景颜色
             itemView.setBackgroundColor(0);
         }
     }

@@ -6,4 +6,5 @@ package com.fresh.company.fresh.Model;
 public enum GoodsType {
     Commodity,//日用品
     Foodstuff,//食品
+    Book;//图书图像类
 }

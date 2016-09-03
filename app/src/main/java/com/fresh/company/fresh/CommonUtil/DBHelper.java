@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "test.db";
+    private static final String DATABASE_NAME = "data.db";
     private static final int DATABASE_VERSION = 1;
 
     public DBHelper(Context context) {
@@ -21,8 +21,12 @@ public class DBHelper extends SQLiteOpenHelper {
     //数据库第一次被创建时onCreate会被调用
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS person" +
-                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, age INTEGER, info TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS userInfo" +
+                "(id VARCHAR PRIMARY KEY, usr VARCHAR, psd VARCHAR)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS goodsInfo" +
+                "(barcode SMALLINT PRIMARY KEY, goods_name VARCHAR,type INTEGER ,manufacturer VARCHAR, production_date DATE,price DOUBLE" +
+                ",picture_path VARCHAR, durability_period VARCHAR, manual_period VARCHAR)");
     }
 
     //如果DATABASE_VERSION值被改为2,系统发现现有数据库版本不同,即会调用onUpgrade
