@@ -15,11 +15,13 @@ import android.widget.TextView;
 import com.dtr.zxing.activity.CaptureActivity;
 import com.fresh.company.fresh.Model.GoodsInfo;
 import com.fresh.company.fresh.Presenter.GoodsPresenter;
+import com.fresh.company.fresh.Presenter.IGoodsPresenter;
 import com.fresh.company.fresh.R;
 import com.fresh.company.fresh.View.IGoodsView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 //import com.rey.material.widget.Spinner;
 
 import java.util.ArrayList;
@@ -31,38 +33,52 @@ public class GoodsActivity extends AppCompatActivity implements IGoodsView,Obser
 
     private TextView mTest;
     private Spinner mSpinner;
+    private CircularProgressView mProgressView;
     private ObservableScrollView mObservableScrollView;
-    private GoodsPresenter mGoodsPresenter;
-    private ArrayList<String> mList=new ArrayList<String>();
+    private IGoodsPresenter mIGoodsPresenter;
+    private ArrayAdapter<String> adapter;
+    private String str;
+
+    public GoodsActivity() {
+        mIGoodsPresenter=new GoodsPresenter(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods);
-        mList.add( "Commodity");//日用品
-        mList.add( "Foodstuff");//食品
-        mList.add( "Book");//图书图像类);
         mObservableScrollView=(ObservableScrollView)findViewById(R.id.scrollView);
         mObservableScrollView.setScrollViewCallbacks(this);
         setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
-        Bundle extras = getIntent().getExtras();
-        String str=extras.getString(CaptureActivity.RESULT);
         mTest=(TextView)findViewById(R.id.test);
         mTest.setText(str);
         mSpinner=(Spinner)findViewById(R.id.goodsType);
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,mList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
+        mProgressView = (CircularProgressView) findViewById(R.id.progress_view);
+    }
+    private void SetViewEnable(boolean b){
 
     }
 
     @Override
-    public void ShowGoodInfoStatus() {
+    public void ShowGoodsInfoStatus() {
+        mProgressView.setVisibility(View.VISIBLE);
+        mProgressView.startAnimation();
+    }
+
+    @Override
+    public void HideGoodsInfoStatus() {
+        mProgressView.stopAnimation();
+        mProgressView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void ShowGoodsInfoFailed() {
 
     }
 
     @Override
-    public void HideGoodInfoStatus() {
+    public void ShowGoodsInfoSuccess() {
 
     }
 
@@ -85,6 +101,16 @@ public class GoodsActivity extends AppCompatActivity implements IGoodsView,Obser
     public void SetData(int period) {
 
     }
+
+    @Override
+    public void Init(ArrayList<String> list) {
+        adapter=new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Bundle extras = getIntent().getExtras();
+        str=extras.getString(CaptureActivity.RESULT);
+        mIGoodsPresenter.WebRequest(str);
+    }
+
 
     /**
      * Called when the scroll change events occurred.

@@ -12,4 +12,5 @@ public interface IGoodsPresenter {
     void SetDataToView(String goodsId);
     void SetDate(Date date);
     void SetPeriod(int period);
+    void WebRequest(String goodsId);
 }
