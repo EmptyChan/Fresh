@@ -244,6 +244,7 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
                     <ImageButton
+                        android:id="@+id/btn_confirm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -251,6 +252,7 @@
                         android:minHeight="@dimen/actionBarMargin"
                         android:src="@mipmap/ic_done_white_24dp"/>
                     <ImageButton
+                        android:id="@+id/btn_cancel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

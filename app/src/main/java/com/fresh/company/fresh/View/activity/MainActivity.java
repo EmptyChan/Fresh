@@ -31,6 +31,16 @@ public class MainActivity extends AppCompatActivity {
     //private Button mGoodsNavigate,mDietNavigate,mMeNavigate;
     private RadioButton mGoodsNavigate,mDietNavigate,mMeNavigate;
     private RadioGroup mRadioGroup;
+    private Toolbar toolbar;
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
 
     private void createFragment(){
         mFragments[0]= ListAllGoodsFragment.newInstance("","","CJH");
@@ -41,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mFragmentManager=getFragmentManager();

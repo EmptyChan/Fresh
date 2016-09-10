@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -38,6 +40,7 @@ public class GoodsActivity extends AppCompatActivity implements IGoodsView,Obser
     private IGoodsPresenter mIGoodsPresenter;
     private ArrayAdapter<String> adapter;
     private String str;
+    private ImageButton mConfirmBtn,mCancelBtn;
 
     public GoodsActivity() {
         mIGoodsPresenter=new GoodsPresenter(this);
@@ -55,6 +58,21 @@ public class GoodsActivity extends AppCompatActivity implements IGoodsView,Obser
         mSpinner=(Spinner)findViewById(R.id.goodsType);
         mSpinner.setAdapter(adapter);
         mProgressView = (CircularProgressView) findViewById(R.id.progress_view);
+
+        mConfirmBtn=(ImageButton)findViewById(R.id.btn_confirm);
+        mConfirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        mCancelBtn=(ImageButton)findViewById(R.id.btn_cancel);
+        mCancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
     private void SetViewEnable(boolean b){
 

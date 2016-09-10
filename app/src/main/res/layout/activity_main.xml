@@ -91,7 +91,7 @@
                 android:id="@+id/meNavigateBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/diet_btn"
+                android:text="@string/me_btn"
                 android:layout_weight="1"/>
         </RadioGroup>
 <!--        <TableRow

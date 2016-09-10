@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/morning_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"/>
+        <!--android:layout_below="@+id/morning_header"-->
+    <FrameLayout
+        android:id="@+id/morning_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <!--android:layout_below="@+id/morning_content"-->
+    <FrameLayout
+        android:id="@+id/afternoon_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorYellow"/>
+    <!--android:layout_below="@+id/afternoon_header"-->
+    <FrameLayout
+        android:id="@+id/afternoon_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+<!--android:layout_below="@+id/afternoon_content"-->
+    <FrameLayout
+        android:id="@+id/evening_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        />
+    <!--android:layout_below="@+id/evening_header"-->
+    <FrameLayout
+        android:id="@+id/evening_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+</LinearLayout>

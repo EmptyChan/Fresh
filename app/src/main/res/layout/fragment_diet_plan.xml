@@ -3,13 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.fragment.DietPlanFragment"
-    android:background="@color/colorAccent"
-    android:id="@+id/dietFragment">
+    android:id="@+id/dietFragment"
+    >
+        <!-- TODO: Update blank fragment layout
+            android:background="@color/colorAccent" -->
+        <com.fresh.company.fresh.Component.ExpandableLayout
+            android:id="@+id/expandableLayout"
+            xmlns:expandable="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            expandable:el_headerLayout="@layout/view_header"
+            expandable:el_contentLayout="@layout/view_content"
+            />
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="diet" />
 
 </FrameLayout>
