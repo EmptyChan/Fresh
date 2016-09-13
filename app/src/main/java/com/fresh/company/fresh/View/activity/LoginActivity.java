@@ -26,9 +26,9 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class LoginActivity extends AppCompatActivity implements ILoginView {
+public class LoginActivity extends BaseActivity implements ILoginView {
     private Button mSignInBtn;
-    private Button mSignUpBtn;
+//    private Button mSignUpBtn;
     private EditText mUsrEt;
     private EditText mPsdEt;
     private CheckBox mPsdCb;
@@ -41,16 +41,15 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     private static int FAILED_FALG=1;
     private ILoginPresenter mLoginPresenter;
     private Handler mHandler;
-    public LoginActivity() {
-        mLoginPresenter=new LoginPresenter(this);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        mLoginPresenter=new LoginPresenter(this,mDBManager);
         setContentView(R.layout.activity_login);
         initViews();
+        //mDBManager.deleteAllGoodsInfo();
     }
     private void SetEditTextStatus(boolean b){
         mUsrEt.setEnabled(b);
@@ -88,6 +87,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
                     @Override
                     public void onError(Throwable e) {
                         Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+                        SetEditTextStatus(true);
+                        HideLoginStatuss();
                     }
 
                     @Override
@@ -130,14 +131,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 //                }.start();
             }
         });
-        mSignUpBtn=(Button) findViewById(R.id.signUpBtn);
-        mSignUpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        mProgressView = (CircularProgressView) findViewById(R.id.progress_view);
+//        mSignUpBtn=(Button) findViewById(R.id.signUpBtn);
+//        mSignUpBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
+       mProgressView = (CircularProgressView) findViewById(R.id.progress_view);
         mPsdCb=(CheckBox)findViewById(R.id.psdCb);
         mPsdCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -148,6 +149,12 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDBManager.CloseDB();
     }
 
     private void update()

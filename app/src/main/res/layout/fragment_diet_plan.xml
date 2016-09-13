@@ -1,10 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.fragment.DietPlanFragment"
     android:id="@+id/dietFragment"
-    >
+    android:orientation="vertical"
+    android:background="@color/colorBackground">
         <!-- TODO: Update blank fragment layout
             android:background="@color/colorAccent" -->
         <com.fresh.company.fresh.Component.ExpandableLayout
@@ -15,6 +16,4 @@
             expandable:el_headerLayout="@layout/view_header"
             expandable:el_contentLayout="@layout/view_content"
             />
-
-
-</FrameLayout>
+</LinearLayout>

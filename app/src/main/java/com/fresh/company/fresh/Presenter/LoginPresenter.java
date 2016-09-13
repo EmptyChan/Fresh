@@ -1,7 +1,9 @@
 package com.fresh.company.fresh.Presenter;
 
+import com.fresh.company.fresh.CommonUtil.DBManager;
 import com.fresh.company.fresh.Model.UserInfo;
 import com.fresh.company.fresh.View.ILoginView;
+import com.fresh.company.fresh.View.activity.BaseActivity;
 
 
 /**
@@ -10,10 +12,14 @@ import com.fresh.company.fresh.View.ILoginView;
 public class LoginPresenter implements ILoginPresenter {
     private ILoginView mLoginView;
     private UserInfo mUserInfo;
+    private DBManager mDBManager;
    // private ExecutorService executor;
     //private CompletionService<Boolean> completionService;
-    public LoginPresenter(ILoginView mLoginView) {
+    public LoginPresenter(ILoginView mLoginView,DBManager dbManager) {
         this.mLoginView = mLoginView;
+        mDBManager=dbManager;
+        //mDBManager.addUserInfo(new UserInfo("CJH","1994"));
+        //mDBManager.updateUserInfoPassword("1994");
        // executor = Executors.newCachedThreadPool();
        // completionService = new ExecutorCompletionService<Boolean>(
 //                executor);
@@ -38,6 +44,7 @@ public class LoginPresenter implements ILoginPresenter {
     public boolean CheckUserInfo() {
         //change in the future.
         mUserInfo=new UserInfo(mLoginView.GetUsr(),mLoginView.GetPsd());
+        String psd=mDBManager.queryUserInfo(mUserInfo.getmUserName());
         try
         {
             Thread.sleep(2000);
@@ -46,7 +53,8 @@ public class LoginPresenter implements ILoginPresenter {
             e.printStackTrace();
         }
         //模拟登录成功
-        if (mUserInfo.getmUserName().equals("CJH") && mUserInfo.getmPass().equals("1994"))
+        //if (mUserInfo.getmUserName().equals("CJH") && mUserInfo.getmPass().equals("1994"))
+        if(psd.equals(mUserInfo.getmPass()))
         {
             return true;
         }

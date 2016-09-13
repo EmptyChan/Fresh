@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -22,11 +23,11 @@ import com.fresh.company.fresh.View.fragment.ListAllGoodsFragment;
 
 import static com.fresh.company.fresh.R.layout.activity_main;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private Fragment[] mFragments;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
-    private Fragment mCurrentFragment,mFragmentContainer;
+    private static Fragment mCurrentFragment,mFragmentContainer;
     private long exitTime = 0;
     //private Button mGoodsNavigate,mDietNavigate,mMeNavigate;
     private RadioButton mGoodsNavigate,mDietNavigate,mMeNavigate;
@@ -42,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
+    public static Fragment getCurrentFragment() {
+        return mCurrentFragment;
+    }
+
     private void createFragment(){
         mFragments[0]= ListAllGoodsFragment.newInstance("","","CJH");
         mFragments[1]= DietPlanFragment.newInstance("","");
@@ -53,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.index);
 
         mFragmentManager=getFragmentManager();
         mFragments=new Fragment[3];
@@ -105,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         }else{
             //back to first fragment
             mGoodsNavigate.setChecked(true);
-            mFragmentTransaction=mFragmentManager.beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+            mFragmentTransaction=mFragmentManager.beginTransaction();//.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
             mFragmentTransaction.show(mFragments[0]).hide(mFragments[1]).hide(mFragments[2]).commit();
             mCurrentFragment=mFragments[0];
         }
@@ -126,6 +132,13 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCurrentFragment.onDestroy();
+        mCurrentFragment=null;
     }
 
     @Override
@@ -151,22 +164,25 @@ public class MainActivity extends AppCompatActivity {
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                mFragmentTransaction=mFragmentManager.beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+                mFragmentTransaction=mFragmentManager.beginTransaction();//.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
                 switch (i){
                     case R.id.goodsNavigateBtn:
                         mFragmentTransaction.show(mFragments[0]).hide(mFragments[1]).hide(mFragments[2]).commit();
                        // SwitchContent(mCurrentFragment,mFragments[0]);
                         mCurrentFragment=mFragments[0];
+                        toolbar.setTitle(R.string.index);
                         break;
                     case R.id.dietNavigateBtn:
                         mFragmentTransaction.show(mFragments[1]).hide(mFragments[0]).hide(mFragments[2]).commit();
                         //SwitchContent(mCurrentFragment,mFragments[1]);
                         mCurrentFragment=mFragments[1];
+                        toolbar.setTitle(R.string.plan);
                         break;
                     case R.id.meNavigateBtn:
                         mFragmentTransaction.show(mFragments[2]).hide(mFragments[1]).hide(mFragments[0]).commit();
                        // SwitchContent(mCurrentFragment,mFragments[2]);
                         mCurrentFragment=mFragments[2];
+                        toolbar.setTitle(R.string.me);
                         break;
                 }
             }

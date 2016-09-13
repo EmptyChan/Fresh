@@ -12,9 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
+        android:textAlignment="center"
         >
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            app:titleTextColor="@color/bigColorContent"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -66,33 +68,28 @@
         android:id="@+id/navigateBar"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@color/cpv_default_color">
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackground">
         <RadioGroup
             android:id="@+id/navigateRg"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/navigateBarMargin"
             android:orientation="horizontal"
-            >
+            android:gravity="center">
             <RadioButton
                 android:id="@+id/goodsNavigateBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/goods_btn"
-                android:layout_weight="1"
-                android:checked="true"/>
+                style="@style/rg_btn_style"
+                android:drawableBottom="@drawable/rb_home_btn_selector"
+                android:checked="true"
+                />
             <RadioButton
                 android:id="@+id/dietNavigateBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/diet_btn"
-                android:layout_weight="1"/>
+                style="@style/rg_btn_style"
+                android:drawableBottom="@drawable/rb_plan_btn_selector" />
             <RadioButton
                 android:id="@+id/meNavigateBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/me_btn"
-                android:layout_weight="1"/>
+                style="@style/rg_btn_style"
+                android:drawableBottom="@drawable/rb_me_btn_selector" />
         </RadioGroup>
 <!--        <TableRow
             android:layout_height="wrap_content"

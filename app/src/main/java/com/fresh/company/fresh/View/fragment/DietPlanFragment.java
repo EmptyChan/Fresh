@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 
 import com.fresh.company.fresh.CommonUtil.DisplayUtil;
 import com.fresh.company.fresh.Component.ExpandableLayout;
@@ -45,7 +46,7 @@ public class DietPlanFragment extends Fragment implements ObservableScrollViewCa
     private ObservableScrollView mObservableScrollView;
     private ExpandableLayout mExpandableLayout;
     private OnFragmentInteractionListener mListener;
-
+    private EditText m,a,e;
     public DietPlanFragment() {
         // Required empty public constructor
     }
@@ -93,9 +94,9 @@ public class DietPlanFragment extends Fragment implements ObservableScrollViewCa
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         int height=dm.heightPixels;
         int a=((MainActivity)getActivity()).getStatusBarHeight();
-        height=height-a-87;
-        mExpandableLayout.setHeaderHeight(height/3);
-        mExpandableLayout.setContentHeight(height/3*2);
+        height=height-a-103;
+        mExpandableLayout.setHeaderHeight(height/6);
+        mExpandableLayout.setContentHeight(height/6*5);
         return v;
     }
 

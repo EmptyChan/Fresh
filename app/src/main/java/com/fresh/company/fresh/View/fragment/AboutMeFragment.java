@@ -8,8 +8,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import com.fresh.company.fresh.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -31,7 +36,7 @@ public class AboutMeFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    private ListView mListView;
     public AboutMeFragment() {
         // Required empty public constructor
     }
@@ -66,8 +71,35 @@ public class AboutMeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View v=inflater.inflate(R.layout.fragment_about_me, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_about_me, container, false);
+        mListView=(ListView) v.findViewById(R.id.me_list);
+        ArrayList<HashMap<String, Object>> lst = new ArrayList<HashMap<String, Object>>();
+        for (int i=0;i<5;i++){
+            lst.add(new HashMap<String, Object>());
+        }
+        lst.get(0).put("id_img",R.mipmap.me_personal);
+        lst.get(0).put("mid_text","个人资料");
+        lst.get(1).put("id_img",R.mipmap.me_expand);
+        lst.get(1).put("mid_text","最新推广");
+        lst.get(2).put("id_img",R.mipmap.me_settings);
+        lst.get(2).put("mid_text","设置");
+        lst.get(3).put("id_img",R.mipmap.me_feedback);
+        lst.get(3).put("mid_text","反馈");
+        lst.get(4).put("id_img",R.mipmap.me_about);
+        lst.get(4).put("mid_text","关于");
+//        for (int i = 0; i < 10; i++) {
+//            HashMap<String, Object> map = new HashMap<String, Object>();
+//            map.put("Title", "标题" + i);
+//            map.put("Content", "内容" + i);
+//            map.put("Image", R.drawable.ic_launcher);
+//            lst.add(map);
+//        }
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this.getActivity(), lst,
+                R.layout.list_item, new String[] { "id_img","mid_text" },
+                new int[] { R.id.id_img, R.id.mid_text });
+        mListView.setAdapter(simpleAdapter);
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

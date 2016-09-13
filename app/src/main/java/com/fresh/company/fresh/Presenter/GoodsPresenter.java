@@ -1,6 +1,7 @@
 package com.fresh.company.fresh.Presenter;
 
 import com.fresh.company.fresh.Model.GoodsInfo;
+import com.fresh.company.fresh.Model.GoodsType;
 import com.fresh.company.fresh.View.IGoodsView;
 
 import java.util.ArrayList;
@@ -15,9 +16,14 @@ public class GoodsPresenter implements IGoodsPresenter{
 
     public GoodsPresenter(IGoodsView IGoodsView) {
         ArrayList<String> list=new ArrayList<String>();
-        list.add( "Commodity");//日用品
-        list.add( "Foodstuff");//食品
-        list.add( "Book");//图书图像类);
+        list.add(GoodsType.谷物类食品.toString());
+        list.add(GoodsType.杂粮类食品.toString());
+        list.add(GoodsType.果蔬类食品.toString());
+        list.add(GoodsType.水产类食品.toString());
+        list.add(GoodsType.奶系列食品.toString());
+        list.add(GoodsType.肉类食品.toString());
+        list.add(GoodsType.蛋类食品.toString());
+        list.add(GoodsType.饮料食品.toString());
         mIGoodsView = IGoodsView;
         mIGoodsView.Init(list);
     }
@@ -51,6 +57,7 @@ public class GoodsPresenter implements IGoodsPresenter{
 
     @Override
     public void WebRequest(String goodsId) {
-        mIGoodsView.ShowGoodsInfoStatus();
+
+        //mIGoodsView.ShowGoodsInfoStatus();
     }
 }

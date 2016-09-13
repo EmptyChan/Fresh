@@ -19,4 +19,5 @@ public interface IGoodsView {
     void SetDate(Date date);
     void SetData(int period);
     void Init(ArrayList<String> list);
+    void ClearAll();
 }

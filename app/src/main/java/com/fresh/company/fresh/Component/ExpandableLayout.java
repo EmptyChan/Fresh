@@ -28,6 +28,7 @@ public class ExpandableLayout extends RelativeLayout {
     private Integer duration;
     private FrameLayout morning_header,afternoon_header,evening_header;
     private FrameLayout morning_content,afternoon_content,evening_content;
+    private RelativeLayout hintLayout;
     private Animation animation;
     private static int HEADER_HEIGHT;
     private static int CONTENT_HEIGHT;
@@ -99,6 +100,8 @@ public class ExpandableLayout extends RelativeLayout {
         morning_header = (FrameLayout) rootView.findViewById(R.id.morning_header);
         afternoon_header = (FrameLayout) rootView.findViewById(R.id.afternoon_header);
         evening_header = (FrameLayout) rootView.findViewById(R.id.evening_header);
+        hintLayout=(RelativeLayout)rootView.findViewById(R.id.diet_plan_hint);
+
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableLayout);
         final int  headerID = typedArray.getResourceId(R.styleable.ExpandableLayout_el_headerLayout, -1);
         final int contentID = typedArray.getResourceId(R.styleable.ExpandableLayout_el_contentLayout, -1);
@@ -116,9 +119,9 @@ public class ExpandableLayout extends RelativeLayout {
         final View headerView1 = View.inflate(context, headerID, null);
         final View headerView2 = View.inflate(context, headerID, null);
         final View headerView3 = View.inflate(context, headerID, null);
-        headerView1.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        headerView2.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        headerView3.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        headerView1.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        headerView2.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        headerView3.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         morning_header.addView(headerView1);
         afternoon_header.addView(headerView2);
         evening_header.addView(headerView3);
@@ -145,10 +148,12 @@ public class ExpandableLayout extends RelativeLayout {
                         collapse(morning_content);
                         expand(afternoon_header, HEADER_HEIGHT);
                         expand(evening_header, HEADER_HEIGHT);
+                        hintLayout.setVisibility(VISIBLE);
                     } else {
                         collapse(evening_header);
                         collapse(afternoon_header);
                         expand(morning_content, CONTENT_HEIGHT);
+                        hintLayout.setVisibility(GONE);
                     }
                     isAnimationRunning = true;
                     new Handler().postDelayed(new Runnable()
@@ -173,11 +178,13 @@ public class ExpandableLayout extends RelativeLayout {
                         collapse(afternoon_content);
                         expand(morning_header,HEADER_HEIGHT);
                         expand(evening_header,HEADER_HEIGHT);
+                        hintLayout.setVisibility(VISIBLE);
                     }
                     else {
                         collapse(morning_header);
                         collapse(evening_header);
                         expand(afternoon_content, CONTENT_HEIGHT);
+                        hintLayout.setVisibility(GONE);
                     }
                     isAnimationRunning = true;
                     new Handler().postDelayed(new Runnable()
@@ -202,10 +209,12 @@ public class ExpandableLayout extends RelativeLayout {
                         collapse(evening_content);
                         expand(morning_header, HEADER_HEIGHT);
                         expand(afternoon_header, HEADER_HEIGHT);
+                        hintLayout.setVisibility(VISIBLE);
                     } else {
                         collapse(afternoon_header);
                         collapse(morning_header);
                         expand(evening_content, CONTENT_HEIGHT);
+                        hintLayout.setVisibility(GONE);
                     }
                     isAnimationRunning = true;
                     new Handler().postDelayed(new Runnable()

@@ -8,12 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
+import com.fresh.company.fresh.CommonUtil.DBManager;
+
 public abstract class BaseActivity extends AppCompatActivity {
 
-    protected abstract Fragment[] createFragment();
+    protected DBManager mDBManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mDBManager=new DBManager(this);
+    }
+    public DBManager getDBmanager(){
+        return mDBManager;
     }
 }

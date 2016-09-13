@@ -3,17 +3,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-    android:background="#ff0000">
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+    android:background="@color/bigColorContent">
 
-    <EditText
-        android:id="@+id/content"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="50dp"
-        android:text="Input:"
-        android:textColor="@android:color/white"
-        android:background="@null"
-        android:paddingLeft="10dp"
-        />
+        android:layout_height="match_parent"
+        android:background="@color/diet_plan_inout_background">
+        <EditText
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:text="添加健康饮食计划::"
+            android:textColor="@color/diet_plan_input_text"
+            android:background="@null"/>
+    </FrameLayout>
+
 
 </RelativeLayout>

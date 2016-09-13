@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.fragment.AboutMeFragment"
-    android:background="@color/cpv_default_color"
+    android:background="@color/me_background"
     android:id="@+id/meFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -14,38 +14,65 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="200dp">
+            android:minHeight="100dp"
+            android:background="@color/bigColorContent"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp">
             <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@drawable/touxiang"
-                android:layout_centerInParent="true"/>
+                android:id="@+id/me_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/circle"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25dp"/>
+            <TextView
+                android:id="@+id/me_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/me_image"
+                android:text="张三"
+                android:textSize="16dp"
+                android:textColor="@color/colorContent"
+                android:layout_centerVertical="true"/>
+            <ImageView
+                android:id="@+id/me_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/me_ma"/>
         </RelativeLayout>
-        <Button
-            android:id="@+id/btn_promotion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="最新推广"/>
-        <Button
-            android:id="@+id/btn_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="个人资料"/>
-        <Button
-            android:id="@+id/btn_settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="设置"/>
-        <Button
-            android:id="@+id/btn_feedback"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="反馈"/>
-        <Button
-            android:id="@+id/btn_about"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="关于"/>
+        <ListView
+            android:id="@+id/me_list"
+            style="@style/me_list_style">
+
+        </ListView>
+
+        <!--<Button-->
+            <!--android:id="@+id/btn_promotion"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="最新推广"/>-->
+        <!--<Button-->
+            <!--android:id="@+id/btn_profile"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="个人资料"/>-->
+        <!--<Button-->
+            <!--android:id="@+id/btn_settings"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="设置"/>-->
+        <!--<Button-->
+            <!--android:id="@+id/btn_feedback"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="反馈"/>-->
+        <!--<Button-->
+            <!--android:id="@+id/btn_about"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="关于"/>-->
     </LinearLayout>
 
 </FrameLayout>

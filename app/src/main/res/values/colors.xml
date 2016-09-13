@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#82D9C2</color>
+    <color name="colorPrimaryDark">#82D9C2</color>
+    <color name="goods_background">#666666 </color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorLaucher">#212121</color>
-    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorContent">#333333</color>
+    <color name="diet_plan_inout_background">#D9B082</color>
+    <color name="diet_plan_input_text">#CCCCCC</color>
+    <color name="me_background">#e5e5e5</color>
+    <color name="cook_content">#999999</color>
+    <color name="bigColorContent">#FEFEFE</color>
+    <color name="colorBackground">#F2F2F2</color>
     <color name="colorYellow">#CDDC39</color>
     <color name="black_overlay">#66000000</color>
 

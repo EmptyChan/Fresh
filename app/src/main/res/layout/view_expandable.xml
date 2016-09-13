@@ -9,18 +9,21 @@
         android:id="@+id/morning_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"/>
+        android:background="@color/bigColorContent"
+        android:layout_marginBottom="5dp"/>
         <!--android:layout_below="@+id/morning_header"-->
     <FrameLayout
         android:id="@+id/morning_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
     <!--android:layout_below="@+id/morning_content"-->
     <FrameLayout
         android:id="@+id/afternoon_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorYellow"/>
+        android:background="@color/bigColorContent"
+        android:layout_marginBottom="5dp"/>
     <!--android:layout_below="@+id/afternoon_header"-->
     <FrameLayout
         android:id="@+id/afternoon_content"
@@ -32,12 +35,37 @@
         android:id="@+id/evening_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        />
+        android:background="@color/bigColorContent"
+        android:layout_marginBottom="5dp"/>
     <!--android:layout_below="@+id/evening_header"-->
     <FrameLayout
         android:id="@+id/evening_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
+    <RelativeLayout
+        android:id="@+id/diet_plan_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+            <ImageView
+                android:id="@+id/diet_plan_cook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@mipmap/plan_cook"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/cook_content"
+                android:text="@string/cook"/>
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

@@ -1,9 +1,10 @@
 package com.fresh.company.fresh.CommonUtil;
 
 import com.fresh.company.fresh.Model.GoodsInfo;
+import com.fresh.company.fresh.Model.GoodsType;
 import com.fresh.company.fresh.Model.UserInfo;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -13,16 +14,18 @@ import java.util.ArrayList;
 public interface IDBManager{
     void addUserInfo(UserInfo userInfo);
     void updateUserInfoPassword(String psd);
-    UserInfo queryUserInfo(String id);
+    String queryUserInfo(String userName);
     ArrayList<UserInfo> queryAllUusersInfo();
     void addGoodsInfo(GoodsInfo goodsInfo);
     void updateGoodsInfo(GoodsInfo goodsInfo);
-    void updateProductionDate(Date productionDate);
-    void updatePrice(Double price);
-    void updatePicPath(String picPath);
-    void updateDurabilityPeriod(String durabilityPeriod);
-    void updateManualPeriod(String manualPeriod);
-    void deleteGoodsInfo(GoodsInfo goodsInfo);
+    void updateGoodsType(String barcode,GoodsType goodsType);
+    void updateProductionDate(String barcode,String productionDate);
+    void updatePrice(String barcode,Double price);
+    void updatePicPath(String barcode,String picPath);
+    void updateDurabilityPeriod(String barcode,String durabilityPeriod);
+    void updateManualPeriod(String barcode,String manualPeriod);
+    void deleteAllGoodsInfo();
+    void deleteGoodsInfo(String barcode);
     ArrayList<GoodsInfo> queryAllGoodsInfo();
     GoodsInfo queryGoodsInfo(String barcode);
 }

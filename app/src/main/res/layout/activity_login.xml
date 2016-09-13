@@ -1,82 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".View.activity.LoginActivity"
-    android:gravity="center"
-    android:background="@color/colorAccent">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:cbd="http://schemas.android.com/apk/res-auto"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                tools:context=".View.activity.LoginActivity"
+                android:background="@color/colorBackground">
     <LinearLayout
         android:id="@+id/ll1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_centerInParent="true"
         android:layout_marginLeft="@dimen/linearLayout_margin_left"
         android:layout_marginRight="@dimen/linearLayout_margin_right"
         android:layout_marginBottom="@dimen/linearLayout_margin_bottom">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textAlignment="center"
-            android:textSize="@dimen/text_size" />
-        <EditText
-            android:id="@+id/usrEt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:ellipsize="end"
-            android:hint="@string/usr_hint"
-
-            android:background="@drawable/edit_shape"/>
-        <EditText
-            android:id="@+id/psdEt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:hint="@string/psd_hint"
-            android:ellipsize="end"
-            android:inputType="textPassword"
-            android:maxLength="16"
-
-            android:background="@drawable/edit_shape"/>
-        <!--android:layout_marginTop="@dimen/linearLayout_margin_top"-->
-        <com.rey.material.widget.CheckBox
-            android:id="@+id/psdCb"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/remember_psd"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_horizontal"
-            style="@style/Material.Drawable.CheckBox"/>
+            android:background="@drawable/circle"
+            android:layout_gravity="center"
+            android:layout_marginBottom="37dp">
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:src="@mipmap/login_me"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:layout_marginBottom="18dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_name"
+                android:textSize="18dp"
+                android:textColor="@color/colorContent"
+                android:drawableBottom="@drawable/text_view_line"
+                />
+            <EditText
+                android:id="@+id/usrEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:textAlignment="center"
+                android:drawableBottom="@drawable/edit_text_line"/>
         </LinearLayout>
-    <LinearLayout
-        android:layout_below="@id/ll1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/linearLayout_margin_left"
-        android:layout_marginRight="@dimen/linearLayout_margin_right">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/password"
+                android:textSize="18dp"
+                android:textColor="@color/colorContent"
+                android:drawableBottom="@drawable/text_view_line"/>
+            <EditText
+                android:id="@+id/psdEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:background="@null"
+                android:inputType="textPassword"
+                android:maxLength="16"
+                android:drawableBottom="@drawable/edit_text_line"/>
+        </LinearLayout>
+        <!--android:layout_marginTop="@dimen/linearLayout_margin_top"-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="48dp"
+            android:paddingRight="50dp"
+            android:layout_marginBottom="9dp">
+            <com.rey.material.widget.CheckBox
+                android:id="@+id/psdCb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remember_psd"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:textColor="@color/colorContent"
+                cbd:cbd_strokeColor="@color/colorPrimary"
+                android:layout_gravity="center_horizontal"
+                style="@style/Material.Drawable.CheckBox"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/forget_password"
+                android:textAllCaps="false"
+                android:textSize="12dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                />
+        </RelativeLayout>
         <Button
             android:id="@+id/signInBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sign_in"
             android:textAllCaps="false"
-            android:layout_weight="1"
-            />
-        <Button
-            android:id="@+id/signUpBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_up"
-            android:textAllCaps="false"
-            android:layout_weight="1"/>
-    </LinearLayout>
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:textSize="24dp"
+            android:textColor="@color/bigColorContent"
+            android:background="@color/colorPrimary"/>
+        </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_below="@id/ll1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_marginLeft="@dimen/linearLayout_margin_left"-->
+        <!--android:layout_marginRight="@dimen/linearLayout_margin_right">-->
+  <!---->
+        <!--<Button-->
+            <!--android:id="@+id/signUpBtn"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/sign_up"-->
+            <!--android:textAllCaps="false"-->
+            <!--android:layout_weight="1"/>-->
+    <!--</LinearLayout>-->
     <com.github.rahatarmanahmed.cpv.CircularProgressView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/progress_view"
@@ -86,5 +143,5 @@
         app:cpv_indeterminate="true"
         app:cpv_thickness="6dp"
         app:cpv_color="@color/colorPrimaryDark"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerInParent="true"/>
 </RelativeLayout>

@@ -6,11 +6,11 @@ import java.util.Date;
  * Created by CJH on 2016/7/31.
  */
 public class GoodsInfo {
-    private short mBarcode;
+    private String mBarcode;
     private String mGoodsName;
     private GoodsType mGoodsType;
     private String mManufacturer;
-    private Date mProductionDate;
+    private String mProductionDate;
     private double mPrice;
     private String mPicturePath;
     private String mDurabilityPeriod;
@@ -32,11 +32,11 @@ public class GoodsInfo {
         this.mGoodsName = mGoodsName;
     }
 
-    public short getmBarcode() {
+    public String getmBarcode() {
         return mBarcode;
     }
 
-    public void setmBarcode(short mBarcode) {
+    public void setmBarcode(String mBarcode) {
         this.mBarcode = mBarcode;
     }
 
@@ -48,12 +48,12 @@ public class GoodsInfo {
         this.mManufacturer = mManufacturer;
     }
 
-    public Date getmProductionDate() {
+    public String getmProductionDate() {
         //final SimpleDateFormat dateFormat = new SimpleDateFormat("EE-MM-dd-yyyy");
         return mProductionDate;
     }
 
-    public void setmProductionDate(Date mProductionDate) {
+    public void setmProductionDate(String mProductionDate) {
         this.mProductionDate = mProductionDate;
     }
 

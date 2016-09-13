@@ -26,11 +26,11 @@
         android:layout_height="wrap_content"
         app:borderWidth="0dp"
         app:fabSize="normal"
+        app:fab_colorNormal="@color/colorPrimary"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/colorPrimaryDark"
-        app:rippleColor="@color/colorAccent"
+        android:src="@mipmap/index_add"
+        app:rippleColor="@color/colorContent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         />
 </RelativeLayout>
