@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
-            android:layout_marginBottom="18dp">
+            android:layout_marginBottom="27dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="21dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,9 +80,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="48dp"
-            android:paddingRight="50dp"
-            android:layout_marginBottom="9dp">
+            android:paddingStart="48dp"
+            android:paddingEnd="50dp"
+            android:layout_marginBottom="25dp">
             <com.rey.material.widget.CheckBox
                 android:id="@+id/psdCb"
                 android:layout_width="wrap_content"
@@ -95,6 +95,7 @@
                 android:layout_gravity="center_horizontal"
                 style="@style/Material.Drawable.CheckBox"/>
             <TextView
+                android:id="@+id/forget_psd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/forget_password"
@@ -109,14 +110,14 @@
         <Button
             android:id="@+id/signInBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text="@string/sign_in"
             android:textAllCaps="false"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:textSize="24dp"
             android:textColor="@color/bigColorContent"
-            android:background="@color/colorPrimary"/>
+            android:background="@drawable/button_round"/>
         </LinearLayout>
     <!--<LinearLayout-->
         <!--android:layout_below="@id/ll1"-->

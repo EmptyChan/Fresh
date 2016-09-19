@@ -27,14 +27,18 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS goodsInfo" +
                 "(barcode VARCHAR PRIMARY KEY, goods_name VARCHAR,type INTEGER ,manufacturer VARCHAR, production_date VARCHAR,price DOUBLE" +
                 ",picture_path VARCHAR, durability_period VARCHAR, manual_period VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS dietPlanInfo" +
+                "(date VARCHAR PRIMARY KEY, morning VARCHAR, afternoon VARCHAR,evening VARCHAR)");
 
-        //db.execSQL("CREATE TABLE IF NOT EXISTS dietPlanInfo" +
-        //        "(id VARCHAR PRIMARY KEY, usr VARCHAR, psd VARCHAR)");
     }
 
     //如果DATABASE_VERSION值被改为2,系统发现现有数据库版本不同,即会调用onUpgrade
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("ALTER TABLE person ADD COLUMN other STRING");
+        //db.execSQL("ALTER TABLE person ADD COLUMN other STRING");
+        if (newVersion==2) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS dietPlanInfo" +
+                    "(date VARCHAR PRIMARY KEY, morning VARCHAR, afternoon VARCHAR,evening VARCHAR)");
+        }
     }
 }

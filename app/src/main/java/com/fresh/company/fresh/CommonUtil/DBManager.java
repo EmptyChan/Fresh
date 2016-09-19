@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.fresh.company.fresh.Model.DietPlanInfo;
 import com.fresh.company.fresh.Model.GoodsInfo;
 import com.fresh.company.fresh.Model.GoodsType;
 import com.fresh.company.fresh.Model.UserInfo;
@@ -38,10 +39,15 @@ public class DBManager implements IDBManager{
         String sql=String.format("INSERT OR REPLACE INTO userInfo VALUES('%s','%s','%s')",userInfo.getmID().toString(), userInfo.getmUserName(), userInfo.getmPass());
         db.execSQL(sql);//执行SQL语句
     }
-
     @Override
-    public void updateUserInfoPassword(String psd) {
-        String sql=String.format("UPDATE userInfo SET psd='%s'",psd);
+    public void deleteUserInfo(String userName){
+        String whereClause = "usr=?";//删除的条件
+        String[] whereArgs = {userName};//删除的条件参数
+        db.delete("userInfo",whereClause,whereArgs);//执行删除
+    }
+    @Override
+    public void updateUserInfoPassword(String userName,String psd) {
+        String sql=String.format("UPDATE userInfo SET psd='%s' WHERE usr='%s'",psd,userName);
         db.execSQL(sql);//执行SQL语句
     }
 
@@ -194,6 +200,96 @@ public class DBManager implements IDBManager{
             t.setmPicturePath(c.getString(c.getColumnIndex("picture_path")));
             t.setmDurabilityPeriod(c.getString(c.getColumnIndex("durability_period")));
             t.setmManualPeriod(c.getString(c.getColumnIndex("manual_period")));
+        }
+        c.close();
+        return t;
+    }
+
+    @Override
+    public void addDietPlan(DietPlanInfo dietPlanInfo) {
+        String sql=String.format("INSERT OR REPLACE INTO dietPlanInfo VALUES('%s','%s','%s','%s')",
+                dietPlanInfo.getDate(),dietPlanInfo.getMorningPlan(),dietPlanInfo.getAfternoonPlan(),dietPlanInfo.getEveningPlan());
+        db.execSQL(sql);//执行SQL语句
+    }
+
+    @Override
+    public void updateDietPlan(DietPlanInfo dietPlanInfo) {
+        ContentValues cv = new ContentValues();//实例化ContentValues
+        cv.put("morning",dietPlanInfo.getMorningPlan());
+        cv.put("afternoon",dietPlanInfo.getAfternoonPlan());
+        cv.put("evening",dietPlanInfo.getEveningPlan());
+        String whereClause = "date=?";//修改条件
+        String[] whereArgs = {dietPlanInfo.getDate()};//修改条件的参数
+        db.update("dietPlanInfo",cv,whereClause,whereArgs);//执行修改
+    }
+
+    @Override
+    public void updateMorningPlan(String key, String morning) {
+        ContentValues cv = new ContentValues();//实例化ContentValues
+        cv.put("morning",morning);
+        String whereClause = "date=?";//修改条件
+        String[] whereArgs = {key};//修改条件的参数
+        db.update("dietPlanInfo",cv,whereClause,whereArgs);//执行修改
+    }
+
+    @Override
+    public void updateAfternoonPlan(String key, String afternoon) {
+        ContentValues cv = new ContentValues();//实例化ContentValues
+        cv.put("morning",afternoon);
+        String whereClause = "date=?";//修改条件
+        String[] whereArgs = {key};//修改条件的参数
+        db.update("dietPlanInfo",cv,whereClause,whereArgs);//执行修改
+    }
+
+    @Override
+    public void updateEveningPlan(String key, String evening) {
+        ContentValues cv = new ContentValues();//实例化ContentValues
+        cv.put("morning",evening);
+        String whereClause = "date=?";//修改条件
+        String[] whereArgs = {key};//修改条件的参数
+        db.update("dietPlanInfo",cv,whereClause,whereArgs);//执行修改
+    }
+
+
+    @Override
+    public void deleteAllDietPlan() {
+        String sql = "delete from dietPlanInfo";//删除操作的SQL语句
+        db.execSQL(sql);//执行删除操作
+    }
+
+    @Override
+    public void deleteDietPlan(String key) {
+        String whereClause = "date=?";//删除的条件
+        String[] whereArgs = {key};//删除的条件参数
+        db.delete("dietPlanInfo",whereClause,whereArgs);//执行删除
+    }
+
+    @Override
+    public ArrayList<DietPlanInfo> getAllDietPlanInfo() {
+        ArrayList<DietPlanInfo> list=new ArrayList<>();
+        Cursor c = db.rawQuery("select * from dietPlanInfo",null);
+        while(c.moveToNext()) {
+            DietPlanInfo t=new DietPlanInfo();
+            t.setDate(c.getString(c.getColumnIndex("date")));
+            t.setMorningPlan(c.getString(c.getColumnIndex("morning")));
+            t.setAfternoonPlan(c.getString(c.getColumnIndex("afternoon")));
+            t.setEveningPlan(c.getString(c.getColumnIndex("evening")));
+            list.add(t);
+        }
+        c.close();
+        return list;
+    }
+
+    @Override
+    public DietPlanInfo queryDietPlanDiet(String key) {
+        Cursor c = db.rawQuery("select * from dietPlanInfo where date=?",new String[]{key});
+        DietPlanInfo t=null;
+        if(c.moveToFirst()) {
+            t=new DietPlanInfo();
+            t.setDate(c.getString(c.getColumnIndex("date")));
+            t.setMorningPlan(c.getString(c.getColumnIndex("morning")));
+            t.setAfternoonPlan(c.getString(c.getColumnIndex("afternoon")));
+            t.setEveningPlan(c.getString(c.getColumnIndex("evening")));
         }
         c.close();
         return t;

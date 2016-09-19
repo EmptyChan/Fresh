@@ -12,13 +12,13 @@ import com.fresh.company.fresh.CommonUtil.DBManager;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    protected DBManager mDBManager;
+    //protected DBManager mDBManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDBManager=new DBManager(this);
+        //mDBManager=new DBManager(this);
     }
-    public DBManager getDBmanager(){
-        return mDBManager;
-    }
+    //public DBManager getDBmanager(){
+    //    return mDBManager;
+   // }
 }

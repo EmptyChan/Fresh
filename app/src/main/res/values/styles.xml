@@ -44,7 +44,7 @@
 
     <style name="rg_btn_style">
         <item name="android:button">@null</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingBottom">8dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <!--android:text="@string/goods_btn"-->
@@ -55,7 +55,13 @@
     <style name="me_list_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingLeft">25dp</item>
-        <item name="android:paddingRight">25dp</item>
+        <!--<item name="android:paddingLeft">25dp</item>-->
+        <!--<item name="android:paddingRight">25dp</item>-->
+    </style>
+    <style name="DialogTransparent" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 </resources>

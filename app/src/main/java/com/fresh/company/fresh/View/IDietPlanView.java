@@ -5,5 +5,9 @@ package com.fresh.company.fresh.View;
  */
 public interface IDietPlanView {
     void ShowDietPlanInfoStatus();
-    void ShowDietPlanInfo();
+    void HideDietPlanInfoStatus();
+    void ShowDietPlanInfo(String content);
+    String GetMorningContent();
+    String GetAfternoonContent();
+    String GetEveningContent();
 }

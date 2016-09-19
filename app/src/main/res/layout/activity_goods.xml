@@ -18,38 +18,36 @@
         app:cpv_thickness="6dp"
         app:cpv_color="@color/bigColorContent"
         android:layout_centerInParent="true"/>
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBar"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/goods_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
         >
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            android:elevation="1dp"
-            />
-
-        <View
-            android:id="@+id/toolbar_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@drawable/toolbar_dropshadow" />
-    </android.support.design.widget.AppBarLayout>
+        <TextView
+            android:id="@+id/goods_toolbar_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:maxLines="1"
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </android.support.v7.widget.Toolbar>
     <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
-        android:layout_below="@id/appBar">
+        android:layout_below="@id/goods_toolbar">
             <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
                 <LinearLayout
                    android:layout_width="match_parent"
@@ -59,15 +57,31 @@
                    android:paddingLeft="@dimen/activity_horizontal_margin"
                    android:paddingRight="@dimen/activity_horizontal_margin">
                    <ImageView
+                       android:id="@+id/goods_picture"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
                        android:src="@mipmap/plan_img"
                        android:scaleType="fitCenter"/>
-                   <TextView
-                       android:id="@+id/barcode"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       style="@style/title_style"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/liner_layout_margin_style"
+                        android:layout_marginTop="5dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/goods_barcode"
+                            style="@style/title_style"/>
+                        <TextView
+                            android:id="@+id/barcode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            style="@style/content_style"
+                            android:textColor="@color/goods_background"
+                            android:background="@color/me_background"/>
+                    </LinearLayout>
                    <LinearLayout
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
@@ -77,14 +91,7 @@
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
                            android:text="@string/goods_name"
-                           style="@style/title_style"
-                           android:id="@+id/textView"/>
-                       <!--<TextView-->
-                           <!--android:id="@+id/goodsName"-->
-                           <!--android:layout_width="match_parent"-->
-                           <!--android:layout_height="wrap_content"-->
-                           <!--android:text="冰菓"-->
-                           <!--style="@style/content_style"/>-->
+                           style="@style/title_style"/>
                        <EditText
                            android:id="@+id/goodsName"
                            android:layout_width="match_parent"
@@ -187,15 +194,17 @@
                            android:layout_height="wrap_content"
                            android:text="@string/goods_production_date"
                            style="@style/title_style"/>
-                       <EditText
+                       <TextView
                            android:id="@+id/goodsProductionDate"
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
                            android:hint="2012-06-09"
+                           android:maxLength="10"
                            android:textColorHint="@color/cook_content"
                            android:paddingTop="4dp"
                            android:paddingBottom="4dp"
                            style="@style/content_style"
+                           android:clickable="true"
                            android:textColor="@color/goods_background"
                            android:textCursorDrawable="@drawable/color_cursor"
                            android:background="@color/me_background"/>
@@ -220,7 +229,7 @@
                            android:id="@+id/goodsDurabilityPeriod"
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
-                           android:hint="两年"
+                           android:hint="180天"
                            android:textColorHint="@color/cook_content"
                            android:paddingTop="4dp"
                            android:paddingBottom="4dp"
@@ -249,7 +258,7 @@
                            android:id="@+id/goodsManualPeriod"
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
-                           android:hint="一年"
+                           android:hint="30天"
                            android:textColorHint="@color/cook_content"
                            android:paddingTop="4dp"
                            android:paddingBottom="4dp"
@@ -277,8 +286,8 @@
                            android:layout_height="wrap_content"
                            android:layout_weight="1"
                            android:layout_marginEnd="10dp"
-                           android:background="@color/me_background"
-                           android:minHeight="@dimen/actionBarMargin"
+                           android:background="@drawable/button_round"
+                           android:minHeight="35dp"
                            android:src="@mipmap/ic_done_gray_24dp"/>
                        <ImageButton
                            android:id="@+id/btn_cancel"
@@ -286,11 +295,12 @@
                            android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                            android:layout_weight="1"
-                           android:background="@color/me_background"
-                           android:minHeight="@dimen/actionBarMargin"
+                           android:background="@drawable/button_round"
+                           android:minHeight="35dp"
                            android:src="@mipmap/ic_clear_gray_24dp"/>
                    </LinearLayout>
            </LinearLayout>
             </LinearLayout>
     </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
+
 </RelativeLayout>

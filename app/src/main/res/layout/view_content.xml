@@ -7,19 +7,25 @@
                 android:paddingRight="25dp"
     android:background="@color/bigColorContent">
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:background="@color/diet_plan_inout_background">
         <EditText
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start|top"
             android:minHeight="50dp"
-            android:text="添加健康饮食计划::"
-            android:textColor="@color/diet_plan_input_text"
+            android:hint="@string/diet_plan_hint_text"
+            android:lineSpacingExtra="4dp"
+            android:inputType="textMultiLine"
+            android:textColor="@color/me_background"
+            android:scrollbars="vertical"
+            android:textColorHint="@color/diet_plan_input_text"
             android:background="@null"/>
-    </FrameLayout>
+    </ScrollView>
 
 
 </RelativeLayout>

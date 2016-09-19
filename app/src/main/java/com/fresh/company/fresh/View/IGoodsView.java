@@ -20,4 +20,12 @@ public interface IGoodsView {
     void SetData(int period);
     void Init(ArrayList<String> list);
     void ClearAll();
+    String getBarcode();
+    String getGoodsName();
+    int getSelectedGoodsType();
+    String getGoodsManufacturer();
+    String getGoodsProductionDate();
+    String getGoodsPrice();
+    String getGoodsDurabilityPeriod();
+    String getGoodsManualPeriod();
 }

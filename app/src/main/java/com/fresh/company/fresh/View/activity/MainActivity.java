@@ -1,38 +1,52 @@
 package com.fresh.company.fresh.View.activity;
 
 
+import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
-
+import com.fresh.company.fresh.CommonUtil.OnSwithPageListener;
+import com.fresh.company.fresh.Component.AlarmReceiver;
+import com.fresh.company.fresh.Component.GoodsReceiver;
+import com.fresh.company.fresh.Model.GoodsInfo;
 import com.fresh.company.fresh.R;
 import com.fresh.company.fresh.View.fragment.AboutMeFragment;
 import com.fresh.company.fresh.View.fragment.DietPlanFragment;
 import com.fresh.company.fresh.View.fragment.ListAllGoodsFragment;
 
-import static com.fresh.company.fresh.R.layout.activity_main;
+import java.util.Calendar;
 
-public class MainActivity extends BaseActivity {
+import static com.fresh.company.fresh.Component.MyAlarm.CURRENT_GOODS;
+import static com.fresh.company.fresh.R.layout.activity_main;
+import static com.fresh.company.fresh.View.fragment.ListAllGoodsFragment.SEND_NOTIFY;
+
+public class MainActivity extends BaseActivity{
+    public static final String GOODS_SEND="com.fresh.sendGoods";
     private Fragment[] mFragments;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
-    private static Fragment mCurrentFragment,mFragmentContainer;
+    private Fragment mCurrentFragment,mFragmentContainer;
     private long exitTime = 0;
     //private Button mGoodsNavigate,mDietNavigate,mMeNavigate;
     private RadioButton mGoodsNavigate,mDietNavigate,mMeNavigate;
     private RadioGroup mRadioGroup;
     private Toolbar toolbar;
+    private TextView title;
+    private GoodsReceiver mReceiver;
+    private static final String TAG="CJH";
+
 
     public int getStatusBarHeight() {
         int result = 0;
@@ -43,8 +57,33 @@ public class MainActivity extends BaseActivity {
         return result;
     }
 
-    public static Fragment getCurrentFragment() {
+    public Fragment getCurrentFragment() {
         return mCurrentFragment;
+    }
+
+    public void NotifyToFragement(GoodsInfo goodsInfo){
+        if (mCurrentFragment instanceof ListAllGoodsFragment){
+            ((ListAllGoodsFragment) mCurrentFragment).getIAllGoodsPresenter().DeleteGoodsInfo(goodsInfo.getmBarcode());
+        }
+    }
+    public void NotifyToFragement(String goods_name){
+        if (mCurrentFragment instanceof ListAllGoodsFragment){
+            // get the AlarmManager instance
+            AlarmManager am= (AlarmManager) getSystemService(ALARM_SERVICE);
+            Intent i=new Intent(SEND_NOTIFY);
+            i.putExtra(CURRENT_GOODS,goods_name);
+            // create a PendingIntent that will perform a broadcast
+            PendingIntent pi= PendingIntent.getBroadcast(this, 0,i , 0);
+            am.cancel(pi);
+//            c.set(Calendar.HOUR, 10);        //设置闹钟小时数
+//            c.set(Calendar.MINUTE, 33);
+//            int a=c.get(Calendar.YEAR);
+//            int b=c.get(Calendar.MONTH);
+//            int e=c.get(Calendar.DAY_OF_MONTH);
+//            long x=System.currentTimeMillis();
+
+            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
+        }
     }
 
     private void createFragment(){
@@ -57,8 +96,15 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        title=(TextView)findViewById(R.id.toolbar_tv);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.index);
+        toolbar.setTitle("");
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+        title.setText(R.string.index);
 
         mFragmentManager=getFragmentManager();
         mFragments=new Fragment[3];
@@ -74,6 +120,8 @@ public class MainActivity extends BaseActivity {
                 .add(R.id.fragmentContainer,mFragments[0]).commit();
         mCurrentFragment=mFragments[0];
         setFragmentIndicator();
+        mReceiver=new GoodsReceiver(this);
+        mReceiver.registerAction(GOODS_SEND);
     }
 //    private void SwitchContent(Fragment from,Fragment to) {
 //        if (mCurrentFragment!=to) {
@@ -91,6 +139,20 @@ public class MainActivity extends BaseActivity {
 //        }
 //    }
 
+
+//    @Override
+//    protected void onStart() {
+//
+//        Log.v(TAG,"onResume");
+//        super.onStart();
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//
+//        Log.v(TAG,"onPause");
+//        super.onStop();
+//    }
 
     /**
      * Take care of popping the fragment back stack or finishing the activity
@@ -136,9 +198,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        unregisterReceiver(mReceiver);
         mCurrentFragment.onDestroy();
         mCurrentFragment=null;
+        super.onDestroy();
     }
 
     @Override
@@ -170,22 +233,42 @@ public class MainActivity extends BaseActivity {
                         mFragmentTransaction.show(mFragments[0]).hide(mFragments[1]).hide(mFragments[2]).commit();
                        // SwitchContent(mCurrentFragment,mFragments[0]);
                         mCurrentFragment=mFragments[0];
-                        toolbar.setTitle(R.string.index);
+                        //toolbar.setTitle(R.string.index);
+                        title.setText(R.string.index);
                         break;
                     case R.id.dietNavigateBtn:
                         mFragmentTransaction.show(mFragments[1]).hide(mFragments[0]).hide(mFragments[2]).commit();
                         //SwitchContent(mCurrentFragment,mFragments[1]);
                         mCurrentFragment=mFragments[1];
-                        toolbar.setTitle(R.string.plan);
+                        ((OnSwithPageListener)mCurrentFragment).onSwithPage();
+                        //toolbar.setTitle(R.string.plan);
+                        title.setText(R.string.plan);
                         break;
                     case R.id.meNavigateBtn:
                         mFragmentTransaction.show(mFragments[2]).hide(mFragments[1]).hide(mFragments[0]).commit();
                        // SwitchContent(mCurrentFragment,mFragments[2]);
                         mCurrentFragment=mFragments[2];
-                        toolbar.setTitle(R.string.me);
+                        //toolbar.setTitle(R.string.me);
+                        title.setText(R.string.me);
                         break;
                 }
             }
         });
+    }
+
+
+    public void GoodsAdd(GoodsInfo goodsInfo) {
+        if (mCurrentFragment instanceof ListAllGoodsFragment){
+            ((ListAllGoodsFragment) mCurrentFragment).getIAllGoodsPresenter().GoodsInfoAdd(goodsInfo);
+            Log.v(TAG,"add in Main");
+        }
+    }
+
+
+    public void GoodsChange(GoodsInfo goodsInfo) {
+        if (mCurrentFragment instanceof ListAllGoodsFragment){
+            ((ListAllGoodsFragment) mCurrentFragment).getIAllGoodsPresenter().GoodsInfoChange(goodsInfo);
+            Log.v(TAG,"change in Main");
+        }
     }
 }

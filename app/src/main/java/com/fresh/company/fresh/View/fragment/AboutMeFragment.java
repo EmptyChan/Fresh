@@ -8,8 +8,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fresh.company.fresh.R;
 
@@ -88,17 +91,18 @@ public class AboutMeFragment extends Fragment {
         lst.get(3).put("mid_text","反馈");
         lst.get(4).put("id_img",R.mipmap.me_about);
         lst.get(4).put("mid_text","关于");
-//        for (int i = 0; i < 10; i++) {
-//            HashMap<String, Object> map = new HashMap<String, Object>();
-//            map.put("Title", "标题" + i);
-//            map.put("Content", "内容" + i);
-//            map.put("Image", R.drawable.ic_launcher);
-//            lst.add(map);
-//        }
         SimpleAdapter simpleAdapter = new SimpleAdapter(this.getActivity(), lst,
                 R.layout.list_item, new String[] { "id_img","mid_text" },
                 new int[] { R.id.id_img, R.id.mid_text });
         mListView.setAdapter(simpleAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView tv = (TextView)view.findViewById(R.id.mid_text);
+                Toast.makeText(AboutMeFragment.this.getActivity(),
+                        tv.getText(), Toast.LENGTH_SHORT).show();
+            }
+        });
         return v;
     }
 

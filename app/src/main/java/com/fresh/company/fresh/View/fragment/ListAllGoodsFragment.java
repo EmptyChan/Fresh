@@ -12,13 +12,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dtr.zxing.activity.CaptureActivity;
+import com.fresh.company.fresh.CommonUtil.OnSingleItemClickListener;
 import com.fresh.company.fresh.CommonUtil.RecyclerViewAdapter;
 import com.fresh.company.fresh.CommonUtil.SimpleItemTouchHelperCallback;
 import com.fresh.company.fresh.CommonUtil.onStartDragListener;
+import com.fresh.company.fresh.Component.AlarmReceiver;
 import com.fresh.company.fresh.Model.GoodsInfo;
+import com.fresh.company.fresh.Model.GoodsInfoFactory;
+import com.fresh.company.fresh.Presenter.AllGoodsPresenter;
+import com.fresh.company.fresh.Presenter.IAllGoodsPresenter;
 import com.fresh.company.fresh.R;
+import com.fresh.company.fresh.View.IAllGoodsView;
 import com.fresh.company.fresh.View.activity.BaseActivity;
 import com.fresh.company.fresh.View.activity.GoodsActivity;
 import com.fresh.company.fresh.View.activity.ScanActivity;
@@ -37,14 +44,18 @@ import static android.app.Activity.RESULT_CANCELED;
  * Use the {@link ListAllGoodsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListAllGoodsFragment extends Fragment implements onStartDragListener,GoodsActivity.ICallBackToMain{
+public class ListAllGoodsFragment extends Fragment implements onStartDragListener,IAllGoodsView{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String HELLO="cjh";
     public static final int SCAN_CODE = 1;
-    public static final String CURRENT_GOODS="GOOD";
+    public static final String ADD_GOODS="add_goods";
+    public static final String UPDATE_GOODS="update_goods";
+    public static final String SEND_GOODS="send_goods";
+    //public static final String SEND_FALG="send_falg";
+    public static final String SEND_NOTIFY="com.fresh.sendNotify";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -56,8 +67,11 @@ public class ListAllGoodsFragment extends Fragment implements onStartDragListene
     private RecyclerViewAdapter adapter;
     private RecyclerView mRecyclerView;
     private ArrayList<GoodsInfo> mGoodsInfos;
-    public ListAllGoodsFragment() {
-        // Required empty public constructor
+    private IAllGoodsPresenter mIAllGoodsPresenter;
+    private AlarmReceiver mAlarmReceiver;
+
+    public IAllGoodsPresenter getIAllGoodsPresenter(){
+        return mIAllGoodsPresenter;
     }
 
     /**
@@ -92,15 +106,26 @@ public class ListAllGoodsFragment extends Fragment implements onStartDragListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mIAllGoodsPresenter=new AllGoodsPresenter(this,new GoodsInfoFactory(this.getActivity()));
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_list_all_goods, container, false);
         mTextView=(TextView)v.findViewById(R.id.tv);
         mTextView.setText("");
 
         //get all data
-        getAllData();
+       mGoodsInfos=mIAllGoodsPresenter.GetAllGoodsInfo();
         //list
         adapter = new RecyclerViewAdapter(getActivity(),this,mGoodsInfos);
+        adapter.setOnItemCilckLisener(new OnSingleItemClickListener() {
+            @Override
+            public void onClick(View v, int pos) {
+                Intent i=new Intent(ListAllGoodsFragment.this.getActivity(),GoodsActivity.class);
+                Bundle b=new Bundle();
+                b.putParcelable(SEND_GOODS,mGoodsInfos.get(pos));
+                i.putExtras(b);
+                startActivity(i);
+            }
+        });
         //参数view即为我们在onCreateView中return的view
         mRecyclerView = (RecyclerView)v.findViewById(R.id.goodsRv);
         //固定recyclerview大小,提升性能
@@ -113,6 +138,8 @@ public class ListAllGoodsFragment extends Fragment implements onStartDragListene
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+
         //fab
         mFloatingActionButton=(FloatingActionButton)v.findViewById(R.id.fab);
         mFloatingActionButton.attachToRecyclerView(mRecyclerView);
@@ -125,13 +152,25 @@ public class ListAllGoodsFragment extends Fragment implements onStartDragListene
                 startActivity(intent);
             }
         });
+        mFloatingActionButton.attachToRecyclerView(mRecyclerView);
+
+        mAlarmReceiver=new AlarmReceiver(getActivity());
+        mAlarmReceiver.registerAction(SEND_NOTIFY);
         return v;
     }
 
-    private void getAllData(){
-        //((BaseActivity)getActivity()).getDBmanager().deleteAllGoodsInfo();
-        mGoodsInfos=((BaseActivity)getActivity()).getDBmanager().queryAllGoodsInfo();
+    @Override
+    public void onResume() {
+
+        super.onResume();
     }
+
+    @Override
+    public void onPause() {
+
+        super.onPause();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -155,6 +194,13 @@ public class ListAllGoodsFragment extends Fragment implements onStartDragListene
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        mIAllGoodsPresenter.Dispose();
+        getActivity().unregisterReceiver(mAlarmReceiver);
+        super.onDestroy();
     }
 
     @Override
@@ -196,27 +242,22 @@ public class ListAllGoodsFragment extends Fragment implements onStartDragListene
     }
 
     @Override
-    public void GoodsChange(GoodsInfo goodsInfo) {
-        int c=0;
-        for (int i=0;i<mGoodsInfos.size();i++){
-            String barcode=mGoodsInfos.get(i).getmBarcode();
-            String bar=goodsInfo.getmBarcode();
-            if (barcode.equals(goodsInfo.getmBarcode())){
-                mGoodsInfos.get(i).setmGoodsName(goodsInfo.getmGoodsName());
-                mGoodsInfos.get(i).setmGoodsType(goodsInfo.getmGoodsType());
-                mGoodsInfos.get(i).setmManufacturer(goodsInfo.getmManufacturer());
-                mGoodsInfos.get(i).setmProductionDate(goodsInfo.getmProductionDate());
-                mGoodsInfos.get(i).setmPrice(goodsInfo.getmPrice());
-                mGoodsInfos.get(i).setmPicturePath(goodsInfo.getmPicturePath());
-                mGoodsInfos.get(i).setmDurabilityPeriod(goodsInfo.getmDurabilityPeriod());
-                mGoodsInfos.get(i).setmManualPeriod(goodsInfo.getmManualPeriod());
-                c=i;
-            }
-        }
-        adapter.update(c);
+    public void GoodsChange(int i) {
+        adapter.update(i);
         //adapter.notifyItemChanged(c);
         //adapter.notifyItemChanged(c);
     }
+
+    @Override
+    public void NotifyToast(String text) {
+        Toast.makeText(this.getActivity(),text,Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public ArrayList<GoodsInfo> GetAllGoodsInfo() {
+        return mGoodsInfos;
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

@@ -2,18 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:id="@+id/list_item">
+                android:layout_marginBottom="25dp"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:id="@+id/list_item"
+                android:background="@color/bigColorContent">
+    <!--android:background="@color/bigColorContent"-->
+
     <ImageView
         android:id="@+id/id_img"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_centerVertical="true"
-        android:layout_marginRight="5dp"
+        android:layout_marginEnd="6dp"
         />
     <!--android:src="@drawable/ic_reorder_grey_500_24dp"-->
     <TextView
         android:id="@+id/mid_text"
-        android:layout_toRightOf="@id/id_img"
+        android:layout_toEndOf="@id/id_img"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:gravity="center_vertical"

@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="goods" />
+
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -27,10 +28,12 @@
         app:borderWidth="0dp"
         app:fabSize="normal"
         app:fab_colorNormal="@color/colorPrimary"
-        android:layout_margin="@dimen/fab_margin"
+        app:fab_shadow="false"
         android:src="@mipmap/index_add"
         app:rippleColor="@color/colorContent"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="30dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        />
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>

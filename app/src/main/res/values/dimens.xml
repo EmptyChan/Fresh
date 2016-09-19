@@ -10,7 +10,7 @@
     <dimen name="linearLayout_margin_bottom">15dp</dimen>
     <dimen name="fab_margin">30dp</dimen>
     <dimen name="navigateBarMargin">46dp</dimen>
-    <dimen name="actionBarMargin">57dp</dimen>
+    <dimen name="actionBarMargin">56dp</dimen>
     <dimen name="item_padding">12dp</dimen>
     <dimen name="pic_height">300dp</dimen>
 </resources>

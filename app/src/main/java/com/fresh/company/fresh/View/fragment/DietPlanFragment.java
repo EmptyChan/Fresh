@@ -2,28 +2,28 @@ package com.fresh.company.fresh.View.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-//import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
-
-import com.fresh.company.fresh.CommonUtil.DisplayUtil;
+import android.widget.FrameLayout;
+import com.fresh.company.fresh.CommonUtil.OnSwithPageListener;
 import com.fresh.company.fresh.Component.ExpandableLayout;
+import com.fresh.company.fresh.Model.DietPlanInfoFactory;
+import com.fresh.company.fresh.Presenter.DietPlanPresenter;
+import com.fresh.company.fresh.Presenter.IDietPlanPresenter;
 import com.fresh.company.fresh.R;
+import com.fresh.company.fresh.View.IDietPlanView;
 import com.fresh.company.fresh.View.activity.MainActivity;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 /**
@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * Use the {@link DietPlanFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DietPlanFragment extends Fragment implements ObservableScrollViewCallbacks {
+public class DietPlanFragment extends Fragment implements ObservableScrollViewCallbacks,IDietPlanView,OnSwithPageListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -46,7 +46,8 @@ public class DietPlanFragment extends Fragment implements ObservableScrollViewCa
     private ObservableScrollView mObservableScrollView;
     private ExpandableLayout mExpandableLayout;
     private OnFragmentInteractionListener mListener;
-    private EditText m,a,e;
+    private EditText morningPlan,afaternoonPlan,eveningPlan;
+    private IDietPlanPresenter mIDietPlanPresenter;
     public DietPlanFragment() {
         // Required empty public constructor
     }
@@ -82,8 +83,7 @@ public class DietPlanFragment extends Fragment implements ObservableScrollViewCa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_diet_plan, container, false);
-//        mObservableScrollView=(ObservableScrollView)v.findViewById(R.id.observableScrollView);
-//        mObservableScrollView.setScrollViewCallbacks(this);
+        mIDietPlanPresenter=new DietPlanPresenter(this,new DietPlanInfoFactory(this.getActivity()));
         mExpandableLayout=(ExpandableLayout)v.findViewById(R.id.expandableLayout);
         ArrayList<String> arrayList=new ArrayList<String>();
         arrayList.add("早餐");
@@ -93,11 +93,33 @@ public class DietPlanFragment extends Fragment implements ObservableScrollViewCa
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         int height=dm.heightPixels;
-        int a=((MainActivity)getActivity()).getStatusBarHeight();
-        height=height-a-103;
+        int statusBarHeight=((MainActivity)getActivity()).getStatusBarHeight();
+        height=height-statusBarHeight-102;//102=56[actionBar] + 46[radioGroup]
         mExpandableLayout.setHeaderHeight(height/6);
         mExpandableLayout.setContentHeight(height/6*5);
+        FrameLayout m=(FrameLayout)mExpandableLayout.findViewById(R.id.morning_content);
+        FrameLayout a=(FrameLayout)mExpandableLayout.findViewById(R.id.afternoon_content);
+        FrameLayout e=(FrameLayout)mExpandableLayout.findViewById(R.id.evening_content);
+        morningPlan=(EditText) m.findViewById(R.id.content);
+        afaternoonPlan=(EditText) a.findViewById(R.id.content);
+        eveningPlan=(EditText) e.findViewById(R.id.content);
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        final SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
+        final String date=sf.format(new Date());
+        morningPlan.setText(mIDietPlanPresenter.GetMorningContent(date));
+        afaternoonPlan.setText(mIDietPlanPresenter.GetAfternoonContent(date));
+        eveningPlan.setText(mIDietPlanPresenter.GetEveningContent(date));
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        mIDietPlanPresenter.SetDietPlanInfoToFile();
+        super.onStop();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -119,6 +141,13 @@ public class DietPlanFragment extends Fragment implements ObservableScrollViewCa
     }
 
     @Override
+    public void onDestroy() {
+        mIDietPlanPresenter.Dispose();
+        mIDietPlanPresenter.DeleteDietPlanInfo();
+        super.onDestroy();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
@@ -137,6 +166,41 @@ public class DietPlanFragment extends Fragment implements ObservableScrollViewCa
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
 
+    }
+
+    @Override
+    public void ShowDietPlanInfoStatus() {
+
+    }
+
+    @Override
+    public void HideDietPlanInfoStatus() {
+
+    }
+
+    @Override
+    public void ShowDietPlanInfo(String content) {
+
+    }
+
+    @Override
+    public String GetMorningContent() {
+        return morningPlan.getText().toString();
+    }
+
+    @Override
+    public String GetAfternoonContent() {
+        return afaternoonPlan.getText().toString();
+    }
+
+    @Override
+    public String GetEveningContent() {
+        return eveningPlan.getText().toString();
+    }
+
+    @Override
+    public void onSwithPage() {
+        mIDietPlanPresenter.SetDietPlanInfoToFile();
     }
 
     /**

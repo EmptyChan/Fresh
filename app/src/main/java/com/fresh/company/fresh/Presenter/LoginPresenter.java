@@ -1,6 +1,7 @@
 package com.fresh.company.fresh.Presenter;
 
 import com.fresh.company.fresh.CommonUtil.DBManager;
+import com.fresh.company.fresh.Model.IUserInfoFactory;
 import com.fresh.company.fresh.Model.UserInfo;
 import com.fresh.company.fresh.View.ILoginView;
 import com.fresh.company.fresh.View.activity.BaseActivity;
@@ -12,12 +13,12 @@ import com.fresh.company.fresh.View.activity.BaseActivity;
 public class LoginPresenter implements ILoginPresenter {
     private ILoginView mLoginView;
     private UserInfo mUserInfo;
-    private DBManager mDBManager;
+    private IUserInfoFactory mIUserInfoFactory;
    // private ExecutorService executor;
     //private CompletionService<Boolean> completionService;
-    public LoginPresenter(ILoginView mLoginView,DBManager dbManager) {
+    public LoginPresenter(ILoginView mLoginView,IUserInfoFactory iUserInfoFactory) {
         this.mLoginView = mLoginView;
-        mDBManager=dbManager;
+        mIUserInfoFactory=iUserInfoFactory;
         //mDBManager.addUserInfo(new UserInfo("CJH","1994"));
         //mDBManager.updateUserInfoPassword("1994");
        // executor = Executors.newCachedThreadPool();
@@ -41,10 +42,10 @@ public class LoginPresenter implements ILoginPresenter {
     }
 
     @Override
-    public boolean CheckUserInfo() {
+    public boolean CheckUserInfoThenLogin() {
         //change in the future.
         mUserInfo=new UserInfo(mLoginView.GetUsr(),mLoginView.GetPsd());
-        String psd=mDBManager.queryUserInfo(mUserInfo.getmUserName());
+        String psd=mIUserInfoFactory.QueryUsrInfo(mUserInfo.getmUserName());
         try
         {
             Thread.sleep(2000);
@@ -90,5 +91,19 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public void UpdateDataToView() {
 
+    }
+
+    @Override
+    public boolean ForgetUserInfo() {
+        if (mIUserInfoFactory.QueryUsrInfo(mLoginView.GetUsr().trim()).equals("")){
+            mIUserInfoFactory.AddUserInfo(new UserInfo("CJH", "1994"));
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void Dispose() {
+        mIUserInfoFactory.CloseFactory();
     }
 }

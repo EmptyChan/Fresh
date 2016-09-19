@@ -10,9 +10,11 @@ import android.widget.Button;
 //import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fresh.company.fresh.Model.UserInfo;
+import com.fresh.company.fresh.Model.UserInfoFactory;
 import com.fresh.company.fresh.Presenter.ILoginPresenter;
 import com.fresh.company.fresh.Presenter.LoginPresenter;
 import com.fresh.company.fresh.R;
@@ -31,10 +33,12 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 //    private Button mSignUpBtn;
     private EditText mUsrEt;
     private EditText mPsdEt;
+    private TextView mForgetPsd;
     private CheckBox mPsdCb;
     private CircularProgressView mProgressView;
     private static final String ERROR_TEXT="Sign In Failed";
     private static final String SUCCESS_TEXT="Sign In Success";
+    private static final String FORGET_TEXT="Reset Complete";
     public static final String USR="usr";
     public static final String PSD="psd";
     private static int SUCCESS_FALG=0;
@@ -46,7 +50,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        mLoginPresenter=new LoginPresenter(this,mDBManager);
+        mLoginPresenter=new LoginPresenter(this,new UserInfoFactory(this));
         setContentView(R.layout.activity_login);
         initViews();
         //mDBManager.deleteAllGoodsInfo();
@@ -68,39 +72,8 @@ public class LoginActivity extends BaseActivity implements ILoginView {
             public void onClick(View view) {
                 ShowLoginStatuss();
                 SetEditTextStatus(false);
+                Dowork();
 
-                Observable.create(new Observable.OnSubscribe<Boolean>() {
-                    @Override
-                    public void call(Subscriber<? super Boolean> subscriber) {
-                        Boolean b=mLoginPresenter.CheckUserInfo();
-                        subscriber.onNext(b);
-                        subscriber.onCompleted();
-                    }
-                }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Boolean>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
-                        SetEditTextStatus(true);
-                        HideLoginStatuss();
-                    }
-
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-                        if (aBoolean){
-                            mLoginPresenter.loginSuccess();
-                        }else{
-                            mLoginPresenter.loginFailed();
-                        }
-                        SetEditTextStatus(true);
-                    }
-                });
                 //Message message=new Message();
                 //异步Handler处理
 //                mHandler=new Handler(){
@@ -138,7 +111,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 //
 //            }
 //        });
-       mProgressView = (CircularProgressView) findViewById(R.id.progress_view);
+        mProgressView = (CircularProgressView) findViewById(R.id.progress_view);
         mPsdCb=(CheckBox)findViewById(R.id.psdCb);
         mPsdCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -149,17 +122,66 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                 }
             }
         });
+
+        mForgetPsd=(TextView)findViewById(R.id.forget_psd);
+
+        mForgetPsd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mLoginPresenter.ForgetUserInfo()) {
+                    Toast.makeText(view.getContext(),FORGET_TEXT, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    /**
+     * login do work
+     */
+    private void Dowork(){
+        Observable.create(new Observable.OnSubscribe<Boolean>() {
+            @Override
+            public void call(Subscriber<? super Boolean> subscriber) {
+                Boolean b=mLoginPresenter.CheckUserInfoThenLogin();
+                subscriber.onNext(b);
+                subscriber.onCompleted();
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+                        SetEditTextStatus(true);
+                        HideLoginStatuss();
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        if (aBoolean){
+                            mLoginPresenter.loginSuccess();
+                        }else{
+                            mLoginPresenter.loginFailed();
+                        }
+                        SetEditTextStatus(true);
+                    }
+                });
     }
 
     @Override
     protected void onDestroy() {
+        mLoginPresenter.Dispose();
         super.onDestroy();
-        mDBManager.CloseDB();
     }
 
     private void update()
     {
-        if (mLoginPresenter.CheckUserInfo()) {
+        if (mLoginPresenter.CheckUserInfoThenLogin()) {
             mLoginPresenter.loginSuccess();
         } else {
             mLoginPresenter.loginFailed();

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -30,8 +31,9 @@ public class ExpandableLayout extends RelativeLayout {
     private FrameLayout morning_content,afternoon_content,evening_content;
     private RelativeLayout hintLayout;
     private Animation animation;
-    private static int HEADER_HEIGHT;
-    private static int CONTENT_HEIGHT;
+    private int HEADER_HEIGHT;
+    private int CONTENT_HEIGHT;
+    private InputMethodManager imm ;
 
     public ExpandableLayout(Context context)
     {
@@ -114,6 +116,7 @@ public class ExpandableLayout extends RelativeLayout {
 
         if (isInEditMode())
             return;
+        imm=  (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         duration = typedArray.getInt(R.styleable.ExpandableLayout_el_duration, getContext().getResources().getInteger(android.R.integer.config_shortAnimTime));
         final View headerView1 = View.inflate(context, headerID, null);
@@ -145,15 +148,16 @@ public class ExpandableLayout extends RelativeLayout {
             {
                 if (!isAnimationRunning) {
                     if (morning_content.getVisibility() == VISIBLE) {
+                        setInputClose(v);
                         collapse(morning_content);
                         expand(afternoon_header, HEADER_HEIGHT);
                         expand(evening_header, HEADER_HEIGHT);
                         hintLayout.setVisibility(VISIBLE);
                     } else {
+                        hintLayout.setVisibility(GONE);
                         collapse(evening_header);
                         collapse(afternoon_header);
                         expand(morning_content, CONTENT_HEIGHT);
-                        hintLayout.setVisibility(GONE);
                     }
                     isAnimationRunning = true;
                     new Handler().postDelayed(new Runnable()
@@ -175,16 +179,17 @@ public class ExpandableLayout extends RelativeLayout {
             {
                 if (!isAnimationRunning) {
                     if (afternoon_content.getVisibility() == VISIBLE) {
+                        setInputClose(v);
                         collapse(afternoon_content);
                         expand(morning_header,HEADER_HEIGHT);
                         expand(evening_header,HEADER_HEIGHT);
                         hintLayout.setVisibility(VISIBLE);
                     }
                     else {
+                        hintLayout.setVisibility(GONE);
                         collapse(morning_header);
                         collapse(evening_header);
                         expand(afternoon_content, CONTENT_HEIGHT);
-                        hintLayout.setVisibility(GONE);
                     }
                     isAnimationRunning = true;
                     new Handler().postDelayed(new Runnable()
@@ -194,7 +199,7 @@ public class ExpandableLayout extends RelativeLayout {
                         {
                             isAnimationRunning = false;
                         }
-                    }, 2*duration);
+                    }, duration);
                 }
 
             }
@@ -206,15 +211,16 @@ public class ExpandableLayout extends RelativeLayout {
             {
                 if (!isAnimationRunning) {
                     if (evening_content.getVisibility() == VISIBLE) {
+                        setInputClose(v);
                         collapse(evening_content);
                         expand(morning_header, HEADER_HEIGHT);
                         expand(afternoon_header, HEADER_HEIGHT);
                         hintLayout.setVisibility(VISIBLE);
                     } else {
+                        hintLayout.setVisibility(GONE);
                         collapse(afternoon_header);
                         collapse(morning_header);
                         expand(evening_content, CONTENT_HEIGHT);
-                        hintLayout.setVisibility(GONE);
                     }
                     isAnimationRunning = true;
                     new Handler().postDelayed(new Runnable()
@@ -224,11 +230,17 @@ public class ExpandableLayout extends RelativeLayout {
                         {
                             isAnimationRunning = false;
                         }
-                    }, 3*duration);
+                    }, duration);
                 }
             }
         });
         typedArray.recycle();
+    }
+
+    private void setInputClose(View v){
+        if(imm != null) {
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
     }
 
     private void expand(final View v,final int height)
@@ -266,7 +278,7 @@ public class ExpandableLayout extends RelativeLayout {
         {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if(interpolatedTime == 1)
+                if(interpolatedTime ==1)
                 {
                     v.setVisibility(View.GONE);
                     isOpened = false;
