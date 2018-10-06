@@ -74,15 +74,16 @@ public class MainActivity extends BaseActivity{
             i.putExtra(CURRENT_GOODS,goods_name);
             // create a PendingIntent that will perform a broadcast
             PendingIntent pi= PendingIntent.getBroadcast(this, 0,i , 0);
-            am.cancel(pi);
+            if (am != null) {
+                am.cancel(pi);
+                am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
+            }
 //            c.set(Calendar.HOUR, 10);        //设置闹钟小时数
 //            c.set(Calendar.MINUTE, 33);
 //            int a=c.get(Calendar.YEAR);
 //            int b=c.get(Calendar.MONTH);
 //            int e=c.get(Calendar.DAY_OF_MONTH);
 //            long x=System.currentTimeMillis();
-
-            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
         }
     }
 

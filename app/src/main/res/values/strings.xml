@@ -22,7 +22,7 @@
     <string name="diet_btn">Diet Plan</string>
     <string name="me_btn">Me</string>
     <string name="action_settings">menu</string>
-    <string name="cook">为今天的饮食\r\n做一个完美的计划吧</string>
+    <string name="cook">为今天的饮食\n做一个完美的计划吧</string>
     <array name="dummy_items">
         <item>牛奶</item>
         <item>蜂蜜</item>

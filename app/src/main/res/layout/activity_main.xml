@@ -86,26 +86,5 @@
                 style="@style/rg_btn_style"
                 android:drawableBottom="@drawable/rb_me_btn_selector" />
         </RadioGroup>
-<!--        <TableRow
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            >
-
-          &lt;!&ndash;  <Button
-                android:id="@+id/goodsNavigateBtn"
-                android:textAllCaps="false"
-                android:text="@string/goods_btn"
-                android:layout_weight="1"/>
-            <Button
-                android:id="@+id/dietNavigateBtn"
-                android:textAllCaps="false"
-                android:text="@string/diet_btn"
-                android:layout_weight="1"/>
-            <Button
-                android:id="@+id/meNavigateBtn"
-                android:textAllCaps="false"
-                android:text="@string/me_btn"
-                android:layout_weight="1"/>&ndash;&gt;
-        </TableRow>-->
     </TableLayout>
 </RelativeLayout>

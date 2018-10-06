@@ -2,8 +2,6 @@ package com.fresh.company.fresh.View.activity;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,11 +20,14 @@ import com.fresh.company.fresh.View.ILoginView;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.rey.material.widget.CheckBox;
 
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 
 public class LoginActivity extends BaseActivity implements ILoginView {
     private Button mSignInBtn;
@@ -73,35 +74,6 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                 ShowLoginStatuss();
                 SetEditTextStatus(false);
                 Dowork();
-
-                //Message message=new Message();
-                //异步Handler处理
-//                mHandler=new Handler(){
-//                    @Override
-//                    public void handleMessage(Message msg) {
-//                        super.handleMessage(msg);
-//                        switch (msg.what){
-//                            case 0:
-//                                mLoginPresenter.loginSuccess();
-//                                break;
-//                            case 1:
-//                                mLoginPresenter.loginFailed();
-//                                break;
-//                        }
-//                    }
-//                };
-//                new Thread(){
-//                    @Override
-//                    public void run() {
-//                        Message message = new Message();
-//                        if (mLoginPresenter.CheckUserInfo()){
-//                            message.what = SUCCESS_FALG;
-//                        }else{
-//                            message.what = FAILED_FALG;
-//                        }
-//                        mHandler.sendMessage(message);
-//                        }
-//                }.start();
             }
         });
 //        mSignUpBtn=(Button) findViewById(R.id.signUpBtn);
@@ -116,7 +88,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         mPsdCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b==true)
+                if (b)
                 {
                     mPsdEt.setText("1994");
                 }
@@ -139,26 +111,32 @@ public class LoginActivity extends BaseActivity implements ILoginView {
      * login do work
      */
     private void Dowork(){
-        Observable.create(new Observable.OnSubscribe<Boolean>() {
+//        Boolean b=mLoginPresenter.CheckUserInfoThenLogin();
+        Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
+            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
                 Boolean b=mLoginPresenter.CheckUserInfoThenLogin();
-                subscriber.onNext(b);
-                subscriber.onCompleted();
+                emitter.onNext(b);
+                emitter.onComplete();
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Boolean>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
                     public void onError(Throwable e) {
                         Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
                         SetEditTextStatus(true);
                         HideLoginStatuss();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
                     }
 
                     @Override

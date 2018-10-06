@@ -113,7 +113,7 @@ public class ListAllGoodsFragment extends Fragment implements onStartDragListene
         mTextView.setText("");
 
         //get all data
-       mGoodsInfos=mIAllGoodsPresenter.GetAllGoodsInfo();
+        mGoodsInfos=mIAllGoodsPresenter.GetAllGoodsInfo();
         //list
         adapter = new RecyclerViewAdapter(getActivity(),this,mGoodsInfos);
         adapter.setOnItemCilckLisener(new OnSingleItemClickListener() {
